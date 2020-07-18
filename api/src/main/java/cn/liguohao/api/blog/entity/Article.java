@@ -51,6 +51,8 @@ public class Article {
     @Column(name = "is_open")
     private Integer isOpen;				// 发布状态 0-草稿(下架) 1-已发布(上架)
 
+    @Column(name = "top")
+    private Integer top;		//是否置顶  0-未置顶 1-置顶 有且只有一篇文章置顶
 
     //配置和标签的多对多关系映射
     @ManyToMany(cascade = CascadeType.ALL)
@@ -165,5 +167,14 @@ public class Article {
 	public void setIsOpen(Integer isOpen) {
 		this.isOpen = isOpen;
 	}
+
+	public Integer getTop() {
+		return top;
+	}
+
+	public void setTop(Integer top) {
+		this.top = top;
+	}
+	
 
 }

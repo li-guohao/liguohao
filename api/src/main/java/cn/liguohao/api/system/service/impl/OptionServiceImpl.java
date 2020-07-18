@@ -52,4 +52,10 @@ public class OptionServiceImpl implements OptionService{
 	public void save(Option option) {
 		optionDao.save(option);
 	}
+
+
+	@Override
+	public Option findOneByOptionCategoryAndOptionName(String optionCategory, String optionName) {
+		return optionDao.findOptionByOptionCategoryAndOptionName(optionCategory, optionName);
+	}
 }

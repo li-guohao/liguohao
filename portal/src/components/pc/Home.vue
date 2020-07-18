@@ -23,10 +23,46 @@
             <div class=" ">
               <!-- 最新文章 -->
               <el-row  >
-                
+
+                <!-- 置顶文章 -->
+                <el-col  :span="24"  v-for="article in newestArticles" :key="article.aid">
+                    <div class="mouseOverBoxShade article" v-if="article.top === 1">
+                      <i class="fa fa-bookmark article-stick "></i>
+                      <!-- 标题 -->
+                      <a @click="toArticleInfo(article.aid)">
+                        <div class="title">
+                        <span v-if="article.title !== ''">{{article.title}}</span>
+                        <span v-else>暂无标题</span>
+                      </div></a>
+                      <!-- 数据 -->
+                      <div >
+                        <span class="label label-zan"><i class="fa fa-eye"></i> {{article.readCount === null?0:article.readCount}} ℃</span>
+                        <span class="label label-zan"><i class="fa fa-comments"></i>{{article.commentCount === null?0:article.commentCount}}</span>
+                        <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime }}</span>
+                      </div>
+                      
+                      <!-- 简介 -->
+                      <!-- <p>{{article.description}}</p> -->
+                      <!-- 图片 -->
+                      <div class="cover mouseOverBoxShade">
+                        <!-- <a @click="toArticleInfo(article.aid)"> 
+                          <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
+                          <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
+                        </a> -->
+                        <div class="img"> 
+                          <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
+                          <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
+                        </div> 
+                        <div class="info"> 
+                          <p>{{article.description}}</p>
+                        </div> 
+                      </div>
+                    </div>
+                </el-col>
+
+                <!-- 其它文章 -->
                 <el-col :span="24"  v-for="article in newestArticles" :key="article.aid">
-                  
-                    <div class="mouseOverBoxShade article">
+                    <div class="mouseOverBoxShade article" v-if="article.top !== 1">
                       <i class="fa fa-bookmark article-stick "></i>
                       <!-- 标题 -->
                       <a @click="toArticleInfo(article.aid)">
@@ -156,15 +192,13 @@ export default {
       WechatDialogVisible:false,
       // 首页热门文章显示条数
       hotest_number: 10,
-      // 首页动态显示条数
-      essay_number:3,
       // 首页文章显示条数
-      article_number:3,
+      article_number:6,
       // 社交URL
       socialUrl:{
-        github:'https://github.com/tobeshrek',
-        qq:'https://resource.tobeshrek.com/images/socialUrl/qq.jpg',
-        wechat:'https://resource.tobeshrek.com/images/socialUrl/wechat.png',
+        github:'https://github.com/li-guohao',
+        qq:'http://static.liguohao.cn/images/socialUrl/qq.jpg',
+        wechat:'http://static.liguohao.cn/images/socialUrl/wechat.png',
         bilibili:'https://space.bilibili.com/118744944',
         steam:''
       },
@@ -189,9 +223,7 @@ export default {
   },
   created(){
     // 获取首页公告
-    //this.getNotice()
-    // 获取所有文章
-    this.getArticleListData()
+    this.getNotice()
     // 获取用户信息
     this.getUserInfo()
     // 获取热门文章信息
@@ -203,15 +235,6 @@ export default {
     // 测试方法
     this.test()
     
-  },
-  watch: {
-    // 页面加载太卡，不使用
-    // // 监听 首页热门文章显示条数
-    // hottestArticles:  'getHottestArticles',
-    // // 监听 首页动态显示条数
-    // essay_number: 'getNewestEssay',
-    // // 监听  首页文章显示条数
-    // article_number: 'getNewestArticles'
   },
   // 计算函数
   computed: {
@@ -229,28 +252,11 @@ export default {
     }
   },
   methods:{
-    // 显示BGM控件
-    bgmController(e){
-      // 获取控制文本
-      var controllerText = e.srcElement.text
-      // 获取播放器区域DOM元素
-      var bgm =  document.getElementsByClassName('bgm')[0]
-      // 判断开关状态，对应修改
-      if('显示BGM播放器' === controllerText) {
-        e.srcElement.text = '隐藏BGM播放器'
-        
-        bgm.style.display = 'block'
-      }else{
-        e.srcElement.text = '显示BGM播放器'
-        bgm.style.display = 'none'
-      }
-      
-    },
     // 获取用户信息
     async getUserInfo(){
       const {data:res} = await this.$http.get(`system/user/info/1`)
       // console.log(res)
-      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取文章信息失败！返回信息：'+ res.meta.msg)
+      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取用户信息！返回信息：'+ res.meta.msg)
       this.user = res.data
     },
     // 获取热门文章信息
@@ -279,9 +285,9 @@ export default {
     },
     // 获取首页公告
     async getNotice(){
-      const {data: res} = await this.$http.get(`setting/notice`)
+      const {data: res} = await this.$http.get(`system/option/one/siteInfo/notice`)
       if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取首页公告失败！返回信息：'+res.meta.msg)
-      this.notice = res.data.value
+      this.notice = res.data.optionValue
     },
     // 跳转到文章详情页
     toArticleInfo(aid){
@@ -289,12 +295,6 @@ export default {
       // 往session中存入对象
       window.sessionStorage.setItem('articleSearchAid',aid)
       this.$router.push(`/article/info/${aid}`)
-    },
-    // 获取所有文章 
-    async getArticleListData(){
-      const {data: res} = await this.$http.get(`blog/article/list/open/1/1000/null`)
-      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取文章数据失败！返回信息：' + res.meta.msg)
-      this.articleListData = res.data
     },
     // 查询文章
     searchArticles(){

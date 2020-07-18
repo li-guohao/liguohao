@@ -45,6 +45,12 @@
                     label="名称"
                     width="180">
                 </el-table-column>
+                <!-- 分类 -->
+                <el-table-column
+                    prop="optionCategory"
+                    label="分类"
+                    width="180">
+                </el-table-column>
                 <!-- 设置值 -->
                 <el-table-column
                     prop="optionName"

@@ -48,6 +48,7 @@ public class OptionController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         map.put("GET-根据分类查询所有系统设置",requestUrl+"/list/category/{optionCategory}");
+        map.put("GET-根据设置的分类和名称查询系统设置",requestUrl+"/one/{optionCategory}/{optionName}");
         map.put("GET-分页查询所有系统设置",requestUrl+"/list/{currentPage}/{pageSize}");
         map.put("POST-保存系统设置",requestUrl+"/save");
         // 返回结果
@@ -84,6 +85,22 @@ public class OptionController {
             result.setMeta(new Meta(500,"服务器内部错误，操作失败，请联系管理猿！",e.getMessage()));
         }
         return result;
+    }
+    
+    
+    @GetMapping("/one/{optionCategory}/{optionName}")
+    public Result findOneByOptionCategoryAndOptionName(@PathVariable String optionCategory,@PathVariable  String optionName){
+    	Result result = new Result();
+    	try {
+    		Option option = optionService.findOneByOptionCategoryAndOptionName(optionCategory,optionName);
+    		result.setMeta(new Meta(200,"查询对应系统设置成功"));
+    		result.setData(option);
+    		
+    	}catch (Exception e){
+    		e.printStackTrace();
+    		result.setMeta(new Meta(500,"服务器内部错误，操作失败，请联系管理猿！",e.getMessage()));
+    	}
+    	return result;
     }
     
     

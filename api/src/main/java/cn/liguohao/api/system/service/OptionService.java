@@ -38,4 +38,14 @@ public interface OptionService {
      * @param option
      */
     void save(Option option);
+    
+    /**
+     * @Title: findOneByOptionCategoryAndOptionName
+     * @Description: 根据设置的分类和名称查询系统设置
+     * @param optionCategory
+     * @param optionName
+     * @return
+     * @return: Option
+     */
+	Option findOneByOptionCategoryAndOptionName(String optionCategory, String optionName);
 }

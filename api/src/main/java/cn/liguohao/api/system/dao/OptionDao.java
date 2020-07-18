@@ -34,7 +34,14 @@ public interface OptionDao extends JpaRepository<Option,Long>,JpaSpecificationEx
     @Query(value = "select * from system_option  limit ?1,?2", nativeQuery = true)
 	List<Option> findAllByPaging(Integer currentPage, Integer pageSize);
 
-
-
+    /**
+     * @Title: findOptionByOptionCategoryAndOptionName
+     * @Description: 根据设置的分类和名称查询系统设置
+     * @param optionCategory
+     * @param optionName
+     * @return
+     * @return: Option
+     */
+    Option findOptionByOptionCategoryAndOptionName(String optionCategory, String optionName);
 }
 

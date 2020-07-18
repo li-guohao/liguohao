@@ -18,12 +18,7 @@ SELECT 'siteInfo','footer','这是默认的尾部声名 ', '站点尾部声名' 
 	SELECT * FROM system_option 
 	WHERE option_category='siteInfo' and option_name = 'footer'
 );
----- 首页显示文章数量
-INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
-SELECT 'homeInfo','articleNum','10','首页显示文章数量 正整数' FROM DUAL WHERE NOT EXISTS(
-	SELECT * FROM system_option 
-	WHERE option_category='homeInfo' and option_name = 'articleNum'
-);
+
 ---- 文件管理的储存策略
 INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
 SELECT 'fileManager','storagePolicies','本地','文件管理的储存策略' FROM DUAL WHERE NOT EXISTS(
