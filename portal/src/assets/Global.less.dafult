@@ -1,0 +1,169 @@
+/* 全局样式定义 */
+body {
+    cursor: url(./images/background/cursor.png),url(./images/background/cursor.png),auto;
+	position: relative;
+	margin: 0;
+	color: #333;
+	font-size: 14px;
+	background:#fff;
+	min-width: 200px;
+	font-family: "微软雅黑";
+	min-height: 500px;
+	display: block;
+	
+	
+	.main{
+		min-height: 700px;
+	}
+}
+div {
+    display: block;
+	margin: 0;
+	overflow :hidden;
+}
+// 通用icon标签设定
+.icon {
+	width: 15px;
+	height: 15px;
+}
+// 通用img标签设定
+img {
+	width: 95%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* 通用a标签*/
+a{
+	text-decoration: none;
+	font-size: 15px;
+	color: white;
+	overflow: hidden;
+	cursor: url(./images/background/pointer.png),url(./images/background/pointer.png),auto;
+}
+
+/* 通用a标签 鼠标移动 鼠标聚焦 */
+a:focus, a:hover{
+	text-decoration: none;
+	font-size: 15px;
+	color: white;
+	overflow: hidden;
+	cursor: url(./images/background/pointer.png),url(./images/background/pointer.png),auto;
+}
+
+// 通用span
+span{
+	margin: 0 2px;
+}
+
+/* 模块背景样式 */
+.moduleBgChange{
+	width: 100%;
+	float: left;
+	height: auto;
+	border-radius: 5px;
+	transition: all 1.0s ease-in-out; /* 缓慢变化效果 */
+	margin-bottom: 25px;
+	box-shadow: 1px 1px 3px 1px rgba(0,0,0,0);
+	padding: 0 15px 25px 15px;
+	background-color: rgba(255,255,255,0.1);
+	position: relative;
+	overflow: hidden;
+	color: rgba(24, 8, 8, 0.1); /* 影响字体的透明度 */
+	text-align: center;
+	margin: 10px;
+	padding: 0;
+
+	/* 模块头部 */
+	.moudle-header{
+		background-color: rgba(0, 8, 10, 0.1);
+		margin: 0;
+		width: 100%;
+		padding: 5px 0;
+
+		button{
+			color: white;
+			display: inline;
+			background-color: rgba(0, 8, 10, 0.1);
+			border: rgba(0, 8, 10, 0.1);
+			line-height: 100%;
+		}
+	}
+
+	img,i{
+		opacity: 0;
+	}
+
+	a{
+		color: rgba(27, 27, 27, 0.1);
+		transition: all 0.5s ease-in-out; /* 缓慢变化效果 */
+	}
+
+	.part{
+		background-color: whitesmoke;
+		margin: 5px;
+		min-height: 50px;
+		opacity: 0.1;
+		transition: all 0.5s ease-in-out; /* 缓慢变化效果 */
+		border-radius: 5px;
+
+		// 标题
+		.title{
+			font-size: 30px;
+			color: rgba(8, 80, 189, 0.7);
+			transition: all 0.5s ease-in-out; /* 缓慢变化效果 */
+		}
+
+		// a标签
+		a{
+			transition: all 0.5s ease-in-out; /* 缓慢变化效果 */
+		}
+		a:hover, a:focue{
+			background-color: slateblue;
+			color: white;
+			cursor: url(./images/background/pointer.png),url(./images/background/pointer.png),auto;
+		}
+
+	}
+	
+	// 分页
+	.el-pagination{
+		transition: all 0.5s ease-in-out; /* 缓慢变化效果 */
+		opacity: 0.1;
+	}
+}
+
+.moduleBgChange:hover, .moduleBgChange:focus {
+	box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.8);
+	background-color: rgba(255, 255, 255, 1);
+	color: rgb(26, 22, 22);
+
+	a{
+		color: skyblue;
+	}
+
+	/* 模块头部 */
+	.moudle-header{
+		background-color: rgba(0, 8, 10, 1);
+		color: white;
+
+		button{
+			opacity: 1;
+		  }
+	}
+
+	img,i{
+		opacity: 1;
+	}
+
+	.part{opacity: 1;}
+
+	.el-pagination{
+		opacity: 1;
+	}
+
+
+	
+}
+
+
