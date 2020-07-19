@@ -66,4 +66,9 @@ public interface ArticleDao extends JpaRepository<Article,Long>,JpaSpecification
     // 前台门户查询所有文章 需要判断是否上架(已发布)
     @Query(value = "select * from blog_article where status <> 0 and is_open=?4 and title like ?3  limit ?1,?2 ",nativeQuery = true)
     List<Article> findArticlesPagingWhereTitleLikeAndIsOpen(Integer currentPage, Integer pageSize, String titlePart, Integer isOpen);
+
+    // 查询置顶的文章
+    List<Article> findArticlesByTop(Integer top);
+
+
 }

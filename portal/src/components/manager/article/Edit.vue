@@ -34,17 +34,7 @@
                     <el-option v-for="dataTag in dataTags" :key="dataTag.tid" :label="dataTag.name" :value="dataTag.name">
                     </el-option>
                 </el-select>
-                <!-- 文章类型 -->
-                <el-select class="articleType"  v-model="articleForm.type" placeholder="请选择类型">
-                    <el-option
-                    label="1-动态"
-                    value="1">
-                    </el-option>
-                    <el-option
-                    label="2-文章"
-                    value="2">
-                    </el-option>
-                </el-select>
+                
                 <!-- 按钮区域 -->
                 <el-form-item class="btns">
                     <el-button type="primary"  @click="articleFromCommit(0)" >草稿</el-button>

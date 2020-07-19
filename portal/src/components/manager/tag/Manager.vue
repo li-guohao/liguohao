@@ -27,14 +27,18 @@
                 </el-table-column>
                 
                 <!-- 标签名称 -->
-                <el-table-column
+                <el-table-column sortable
+                    prop="name"
+                    label="标签名称"
+                    width="180">
+                </el-table-column>
+                <!-- <el-table-column
                     prop="name"
                     label="标签名称"
                     width="180">
                     <template slot-scope="scope">
-                    <!-- :row-dblclick="editContent(row, event)" -->
                     <el-input v-model="scope.row.name" @blur="updateEntity(scope.row)"></el-input>
-                </template>
+                </template> -->
 
                 </el-table-column>
                 <!-- 创建时间 -->
@@ -49,13 +53,13 @@
                     label="被引用次数">
                 </el-table-column>
                 
-                <el-table-column  align='center'
+                <!-- <el-table-column  align='center'
                     label="操作">
                     <template slot-scope="scope">
                         
                         <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleEntity(scope.row.tid)">删除</el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
             <br>
             <!-- 分页 -->

@@ -73,7 +73,7 @@ public class FileController {
             result.setMeta(new Meta(200,"上传文件成功"));
         }catch (Exception e){
             e.printStackTrace();
-            result.setMeta(new Meta(500,"服务器内部错误，上传文件失败",e.getMessage()));
+            result.setMeta(new Meta(500,"服务器内部错误，上传文件失败，或许是您还未配置对象存储信息",e.getMessage()));
         }
         return result;
     }

@@ -53,6 +53,7 @@ public class ArticleController {
         map.put("GET-根据文章ID查询文章",requestUrl+"/{aid}");
         map.put("GET-根据文章ID查询文章",requestUrl+"/{aid}");
         map.put("PUT-更新文章",requestUrl+"/update");
+        map.put("PUT-置顶文章  如已经存在置顶文章则置顶失败则返回304-未修改",requestUrl+"/top/{aid}");
         map.put("DELETE-根据ID逻辑删除文章",requestUrl+"/{aid}");
         map.put("GET-查询指定数量最新文章",requestUrl+"/newest/{number}");
         map.put("GET-查询指定数量热门文章",requestUrl+"/hottest/{number}");
@@ -235,4 +236,27 @@ public class ArticleController {
         return result;
     }
 
+    
+    // 置顶文章  如已经存在置顶文章则置顶失败则返回304-未修改
+    @PutMapping("/top/{aid}")
+    public Result topArticleByAid(@PathVariable Long aid) {
+    	Result result = new Result();
+        try {
+            Article article = articleService.topArticleByAid(aid);
+            if((article != null )) {
+            	if(article.getAid()==aid) { //取消置顶操作
+            		result.setMeta(new Meta(200,"取消置顶成功"));
+            	}else {
+            		result.setMeta(new Meta(304,"置顶失败，已经存在被置顶的文章："+article.getTitle()));
+            	}
+            }else {
+            	result.setMeta(new Meta(200,"置顶成功"));
+            }
+            result.setData(article);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMeta(new Meta(500,"服务器内部异常，置顶文章失败",e.getMessage()));
+        }
+        return result;
+    }
 }

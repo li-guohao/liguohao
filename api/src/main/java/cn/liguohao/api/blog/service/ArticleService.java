@@ -71,4 +71,12 @@ public interface ArticleService {
 	PagingData<Article> findArticlePagingWhereTitleLikeAndIsOpen(Integer currentPage, Integer pageSize,
 			String titlePart, Integer isOpen);
 
+	/**
+	 * @Title: topArticleByAid
+	 * @Description: 根据ID置顶或取消置顶文章，如已有文章被置顶则抛出异常 状态码-304-未修改 
+	 * @param aid
+	 * @return: void
+	 */
+	Article topArticleByAid(Long aid);
+
 }

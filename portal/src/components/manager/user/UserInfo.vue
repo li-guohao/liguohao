@@ -29,15 +29,14 @@
                     <img :src="user.headPortraitUrl" alt="暂未上传头像或者头像无效">
                     <br>
                 </el-tab-pane>
-                <el-tab-pane label="修改密码" name="password">
-                    <el-tag>原密码</el-tag> <el-input v-model="password" placeholder="请输入原密码"></el-input>
-                    <br>
-                    <el-tag>新密码</el-tag> <el-input v-model="newPassword1" placeholder="请输入新密码"></el-input>
-                    <br>
-                    <el-tag>确认密码</el-tag> <el-input v-model="newPassword2" placeholder="请再次输入新密码"></el-input>
-                </el-tab-pane>
         
                 <el-tab-pane label="主要信息" name="third">
+                    <!-- 邮箱 -->
+                    <el-tag>你的邮箱</el-tag> <el-input v-model="user.email" placeholder="邮箱"></el-input>
+                    <br>
+                    <!-- 密码 -->
+                    <el-tag>密码</el-tag> <el-input v-model="user.password" placeholder="密码"></el-input>
+                    <br>
                     <!-- 用户昵称 -->
                     <el-tag>用户昵称</el-tag> <el-input v-model="user.nickname" placeholder="昵称"></el-input>
                     <br>
@@ -70,23 +69,6 @@
                     <!-- 微信号 -->
                     <el-tag>微信号</el-tag>
                     <el-input v-model="user.wechat" placeholder="微信号"></el-input>
-                    <br>
-                </el-tab-pane>
-                <el-tab-pane label="邮箱配置" name="five">
-                    <!-- 邮箱 -->
-                    <el-tag>你的邮箱</el-tag> <el-input v-model="user.email" placeholder="邮箱"></el-input>
-                    <br>
-                    <!-- AccessKey -->
-                    <el-tag>AccessKey</el-tag> <el-input v-model="user.emailAccessKey" placeholder="阿里云邮件推送AccessKey"></el-input>
-                    <br>
-                    <!-- AccessSecret -->
-                    <el-tag>AccessSecret</el-tag> <el-input v-model="user.emailAccessSecret" placeholder="阿里云邮件推送AccessSecret"></el-input>
-                    <br>
-                    <!-- 阿里云邮件推送配置_发信地址 -->
-                    <el-tag>发信发信地址</el-tag> <el-input v-model="user.emailSendMailAddress" placeholder="阿里云邮件推送发信地址"></el-input>
-                    <br>
-                    <!-- 阿里云邮件推送配置_发信用户昵称 -->
-                    <el-tag>发信用户昵称</el-tag> <el-input v-model="user.emailSendName" placeholder="阿里云邮件推送发信用户昵称"></el-input>
                     <br>
                 </el-tab-pane>
             </el-tabs>

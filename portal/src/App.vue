@@ -14,11 +14,11 @@
       <a href="#/" class="logo">{{logo}}</a>
       <!-- 主链接 -->
       <a :key='index' v-for='(item,index) in headerUrls' :href="item.url" ><i :class="item.iconClass"></i>{{item.name}}</a>
-      <el-button class="barButton"  type="info" icon="fa fa-bars" circle @click="switchHeaderStatus"></el-button>
-      <!-- 下拉菜单 -->
-      <div class="bars">
-        <a :key='index' v-for='(item,index) in headerBarUrls' :href="item.url"><i :class="item.iconClass"></i>{{item.name}}</a>
-      </div>
+      <!-- 后台自定义导航链接 -->
+      <a :key='link.lid' v-for='link in linkList' :href="link.targetUrl" >
+        <img :src="link.img" alt="" class="headerLinkIcon">
+        {{link.name}}
+      </a>
     </div>
     <!-- 主体内容路由占位符 -->
     <router-view/>
@@ -26,9 +26,9 @@
     <div class="footer " v-html="footerInfo"></div>    
     <!-- 后台接口异常时处理判断 -->
     <div  v-if="footerInfo === ''"  class="footer ">
-      <p><a href="https://tobeshrek.com">小站</a>  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="https://tobeshrek.com">@tobeshrek.com</a>
+      <p><a href="https://liguohao.cn">小站</a>  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="https://liguohao.cn">@tobeshrek.com</a>
       <font color="white">  Made By </font> 
-      <a href="https://tobeshrek.com"> tobeshrek</a>
+      <a href="https://liguohao.cn"> li-guohao</a>
       <br>
       <a  href="http://beian.miit.gov.cn/" target="_blank">备案号：赣ICP备19013362号-1</a>
       </p>
@@ -40,8 +40,10 @@
 export default {
   
   created(){
+    // 获取导航链接
+    this.getLinkList()
     // 获取footer处的HTML片段信息
-    //this.getFooterInfo()
+    this.getFooterInfo()
     // 继承vue对象
     const that = this 
     this.changeStyleByScreenWidth()
@@ -62,73 +64,38 @@ export default {
       // 后台状态标识符
       apiStatusFlag: false,
       // logo文本
-      logo:'Tobeshrek',
+      logo:'小豪的个人小站',
       // 顶部导航栏数据
       headerUrls:[
         {url:'/', iconClass:'fa fa-home', name:'首页'},
-        {url:'/essay', iconClass:'fa fa-refresh', name:'动态'},
         {url:'/article', iconClass:'fa fa-server', name:'文章'},
         {url:'/tags', iconClass:'fa fa-tags', name:'标签墙'},
-        {url:'/archive', iconClass:'fa fa-archive', name:'归档'},
-        {url:'/friendLinks', iconClass:'fa fa-users', name:'友人账'},
-        {url:'/about', iconClass:'fa fa-user-circle', name:'关于我'},
-        {url:'http://tool.tobeshrek.com', iconClass:'fa fa-wrench', name:'工具箱'},
         {url:'/login', iconClass:'fa fa-cog', name:'登陆'}
       ],
-      // 顶部导航栏下拉菜单数据
-      headerBarUrls:[
-        {url:'/essay', iconClass:'fa fa-refresh', name:'动态'},
-        {url:'/article', iconClass:'fa fa-server', name:'文章'},
-        {url:'/tags', iconClass:'fa fa-tags', name:'标签墙'},
-        {url:'/archive', iconClass:'fa fa-archive', name:'归档'},
-        {url:'/friendLinks', iconClass:'fa fa-users', name:'友人账'},
-        {url:'/about', iconClass:'fa fa-user-circle', name:'关于我'},
-        {url:'http://tool.tobeshrek.com', iconClass:'fa fa-wrench', name:'工具箱'},
-        {url:'/login', iconClass:'fa fa-cog', name:'登陆'},
-      ],
       // 尾部HTML代码
-      footerInfo: ``
+      footerInfo: ``,
+      // 导航链接
+      linkList:[]
     }
   },
   methods:{
     // 获取footer处的HTML片段信息
     async getFooterInfo(){
-      const {data: res} = await this.$http.get(`setting/footer`);
+      const {data: res} = await this.$http.get(`system/option/one/siteInfo/footer`);
       console.log(res)
       if( res.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res.meta.msg)
       // else this.$message.success(res.meta.msg)
-      this.footerInfo = res.data.value
+      this.footerInfo = res.data.optionValue
       // 修改后台接口状态
       this.apiStatusFlag = true;
     },
-    // 根据屏幕宽度，调整样式
-    changeStyleByScreenWidth(){
-      const screenWidth = document.body.clientWidth
-      if(screenWidth<1000){ //移动设备
-        this.headerUrls.splice(1,7)
-      }else{  //PC设备
-        this.headerUrls = [
-            {url:'/', iconClass:'fa fa-home', name:'首页'},
-            {url:'/essay', iconClass:'fa fa-refresh', name:'动态'},
-            {url:'/article', iconClass:'fa fa-server', name:'文章'},
-            {url:'/tags', iconClass:'fa fa-tags', name:'标签墙'},
-            {url:'/archive', iconClass:'fa fa-archive', name:'归档'},
-            {url:'/friendLinks', iconClass:'fa fa-users', name:'友人账'},
-            {url:'/about', iconClass:'fa fa-user-circle', name:'关于我'},
-            {url:'http://tool.tobeshrek.com', iconClass:'fa fa-wrench', name:'工具箱'},
-            {url:'/login', iconClass:'fa fa-cog', name:'登陆'}
-          ]
-      }
-    },
-    // 切换状态
-    switchHeaderStatus(){
-      // document.getElementsByClassName('bars')[0].style.display = "inline";
-      const display = document.getElementsByClassName('bars')[0].style.display
-      if(display === 'none'){
-        document.getElementsByClassName('bars')[0].style.display = "inline"
-      }else{
-        document.getElementsByClassName('bars')[0].style.display = "none"
-      }
+    // 获取导航链接
+    async getLinkList(){
+       const {data: res} = await this.$http.get(`blog/link/list`)
+      //console.log(res)
+      if(res.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res.meta.msg)
+      //else this.$message.success(res.meta.msg)
+      this.linkList = res.data
     }
   }
 }
@@ -140,6 +107,7 @@ export default {
   background-color: rgba(0, 8, 10, 0.5);
   text-align: left;
   padding: 0 10%;
+  
   /* 头部的a标签 */
   a {
     height: 50px;
@@ -149,6 +117,18 @@ export default {
     margin: 0 2px;
     font-size: 14px;
     color: white;
+
+    .headerLinkIcon{
+      padding: 2px;
+      width: 20px;
+      max-width: 100%;
+      vertical-align: middle;
+      border: 0;
+      height: auto;
+      -ms-interpolation-mode: bicubic;
+      overflow: hidden;
+      font-size: 12px;
+    }
   }
   /* 头部的a标签 鼠标移动 鼠标聚焦 */
   a:focus, a:hover{

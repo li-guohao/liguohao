@@ -10,6 +10,7 @@ import ArticleList from '@/components/manager/article/List'
 import TagManager from '@/components/manager/tag/Manager'
 import CommentList from '@/components/manager/comment/List'
 import SystemOption from '@/components/manager/system/Option'
+import SystemLinks from '@/components/manager/system/Links'
 import SystemSkin from '@/components/manager/system/Skin'
 import Img from '@/components/manager/file/Img'
 import Music from '@/components/manager/file/Music'
@@ -97,6 +98,7 @@ const routes = [
       { path: 'comment/list', component: CommentList },
       { path: 'system/option', component: SystemOption },
       { path: 'system/skin', component: SystemSkin },
+      { path: 'system/links', component: SystemLinks },
       { path: 'user/userInfo', component: UserInfo },
       { path: 'file/img', component: Img },
       { path: 'file/music', component: Music },

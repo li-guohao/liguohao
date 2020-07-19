@@ -37,6 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void save(Article article) {
         article.setCreateTime(new Date());
         article.setUpdateTime(new Date());
+        if(article.getTop()==null) article.setIsOpen(0); //为空默认不置顶
         if(article.getStatus()==null) article.setStatus(1); //默认保存为草稿
 
         // 标签逻辑处理
@@ -210,5 +211,29 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCommentCount(size.longValue());
         }
         return pagingData;
+	}
+
+	@Override
+	public Article topArticleByAid(Long aid) {
+		// 查询是否存在已经置顶文章，返回已经置顶的文章
+		List<Article> articleList = articleDao.findArticlesByTop(1);
+		if(articleList != null && articleList.size()>0) { //存在已置顶文章
+			Article article = articleList.get(0);
+			if(article.getAid() == aid){ //操作的正是已经置顶的文章
+				//取消文章置顶
+				article.setTop(0);
+				articleDao.save(article);
+			}
+			return article;
+		}else { // 不存在已置顶文章，置顶文章 
+			Article article = articleDao.getOne(aid);
+			if(article.getTop()==0) {
+				article.setTop(1);
+			}else {
+				article.setTop(0);
+			}
+			articleDao.save(article);
+			return null;
+		}
 	}
 }

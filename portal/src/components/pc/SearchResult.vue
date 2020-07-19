@@ -4,11 +4,11 @@
       <div class="moduleBgChange">
         <div class="moudle-header">查询结果</div>
          <!-- 查到数据为0条 -->
-        <div class="part" v-if="articleListData.total===0 && essayListData.total===0">
+        <div class="part" v-if="articleListData.total===0 ">
             暂无符合条件的数据
         </div>
         <!-- 查询到了数据 -->
-        <div v-if="articleListData.total!==0  || essayListData.total!==0">
+        <div v-if="articleListData.total!==0  ">
             <!-- 分页 -->
             <el-pagination
             background
@@ -20,25 +20,7 @@
             layout="total,sizes, prev, pager, next"
             :total="articleListData.total"
             ></el-pagination>
-            <el-row :gutter="20">
-              <!-- 显示动态信息 -->
-              <el-col  v-for="(article) in essayListData.dataArray" :key="article.aid" :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-                <div class="moduleBgChange mouseOverBoxShade" >
-                  <div class="part">
-                      <!-- 动态内容 -->
-                      <div class="essay-content">
-                        {{article.content}}
-                      </div>
-                      
-                      <!-- 动态更新时间 -->
-                      <div class="essay-updateTime">
-                        <a @click="toArticleInfo(article.aid)">更多</a>
-                        更新于{{article.updateTime}}
-                      </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
+            
             <el-row :gutter="20">
               <!-- 文章列表 -->
               <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8"
@@ -78,7 +60,6 @@
             
             </el-row>
             <!-- 分页 -->
-            <div>
             <el-pagination
                 background
                 @size-change="handleSizeChange"
@@ -107,12 +88,6 @@ export default {
         currentPage: 1,
         pageSize: 6,
         dataArray: []
-      },
-      essayListData:{
-            total:0,
-            currentPage:1,
-            pageSize:8,
-            dataArray:[]
       }
     };
   },
@@ -128,9 +103,6 @@ export default {
   mounted() {
     // 根据条件获取文章数据
     this.getArticleListData()
-    // 根据条件获取动态数据
-    this.getEssayListData()
-
   },
   methods: {
     //根据tid查询所有包含该标签的文章数据，按照更新时间顺序排列
@@ -147,16 +119,16 @@ export default {
       this.articleListData = res.data;
     },
     //根据tid查询所有包含该标签的动态数据，按照更新时间顺序排列
-    async getEssayListData(tid){
+    async getArticleListDataByTid(tid){
       const { data: res } = await this.$http.get(
         `blog/article/list/${this.articleListData.currentPage}/${this.articleListData.pageSize}/${this.term}`
       );
       console.log(res);
       if (res.meta.status !== 200)
         return this.$message.error(
-          "后台接口异常，获取所有动态失败！返回信息：" + res.meta.msg
+          "后台接口异常，获取所有文章失败！返回信息：" + res.meta.msg
         );
-      this.essayListData = res.data;
+      this.articleListData = res.data;
     },
     // 根据文章标题片段模糊查询文章，按照更新时间排序
     async getArticleByArticleTitle(partTitle) {
@@ -189,7 +161,7 @@ export default {
         if (flag) {
         //为数字, 便签的tid
         //根据tid查询所有包含该标签的文章数据，按照更新时间顺序排列
-        this.getArticlesByTid(this.term);
+        this.getArticleListDataByTid(this.term);
         } else {
         //为字符, 文章的标题片段
         // 根据文章标题片段模糊查询文章，按照更新时间排序

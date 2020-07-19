@@ -107,21 +107,22 @@ export default {
                     "path": "manager/file/img",
                     "children": [],
                     "order": 1
-                },
-                {
-                    "id": 22,
-                    "authName": "音频管理",
-                    "path": "manager/file/music",
-                    "children": [],
-                    "order": 2
-                },
-                {
-                    "id": 23,
-                    "authName": "视频管理",
-                    "path": "manager/file/video",
-                    "children": [],
-                    "order": 3
                 }
+                // ,
+                // {
+                //     "id": 22,
+                //     "authName": "音频管理",
+                //     "path": "manager/file/music",
+                //     "children": [],
+                //     "order": 2
+                // },
+                // {
+                //     "id": 23,
+                //     "authName": "视频管理",
+                //     "path": "manager/file/video",
+                //     "children": [],
+                //     "order": 3
+                // }
                 
             ],
             "order": 1
@@ -144,11 +145,12 @@ export default {
                     "path": "manager/system/option",
                     "children": [],
                     "order": null
-                },
+                }
+                ,
                 {
                     "id": 33,
-                    "authName": "选择皮肤",
-                    "path": "manager/system/skin",
+                    "authName": "导航链接",
+                    "path": "manager/system/links",
                     "children": [],
                     "order": null
                 }

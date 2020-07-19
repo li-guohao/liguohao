@@ -69,9 +69,11 @@
                     label="评论数"
                     width="50">
                 </el-table-column>
-                <el-table-column  align='center'
+                <el-table-column  align='center' width="350"
                     label="操作">
                     <template slot-scope="scope">
+                        <el-button v-if="scope.row.top === 0" size="mini" type="primary" icon="el-icon-edit" @click="topArticle(scope.row.aid)">置顶</el-button>
+                        <el-button v-if="scope.row.top === 1" size="mini" type="danger" icon="fa fa-star" @click="topArticle(scope.row.aid)">取消</el-button>
                         <el-button size="mini" type="primary" icon="el-icon-edit" @click="editArticle(scope.row.aid)">编辑</el-button>
                         <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleArticle(scope.row.aid)">删除</el-button>
                     </template>
@@ -118,7 +120,7 @@ export default {
             const {data: res} = await this.$http.get(`blog/article/list/like/${this.articleListData.currentPage}/${this.articleListData.pageSize}/${this.searchArticleTitle}`)
             console.log(res)
             if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取所有文章失败！返回信息：'+res.meta.msg)
-            else this.$message.success(res.meta.msg)
+            //else this.$message.success(res.meta.msg)
             this.articleListData = res.data
         },
         // 格式化状态
@@ -132,6 +134,15 @@ export default {
             // 往session中存入对象
             window.sessionStorage.setItem('articleEditAid',val)
             this.$router.push('/manager/article/edit')
+        },
+        // 置顶文章
+        async topArticle(val){
+            // 请求后台，置顶文章
+            const {data:res} = await this.$http.put(`blog/article/top/${val}`)
+            console.log(res)
+            if(res.meta.status!=200) this.$message.error(res.meta.msg)
+            else this.$message.success(res.meta.msg)
+            this.getArticleListData()
         },
         // 根据AID删除文章
         async deleArticle(val){

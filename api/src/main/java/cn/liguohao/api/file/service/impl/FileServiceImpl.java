@@ -70,6 +70,7 @@ public class FileServiceImpl implements FileService {
         	// 初始化客户端
         	// 从数据库获取七牛云对象存储信息
         	List<Option> optionList = optionService.findOptionsByOptionCategory("qiniuoss");
+        	
         	String qiniuAccessKey = "";
         	String qiniuSecretKey = "";
         	String qiniuBucket = "";
@@ -93,7 +94,8 @@ public class FileServiceImpl implements FileService {
 					qiniuRegion = option.getOptionValue();
 					break;
 				default:
-					break;
+					// 未配置时直接抛出异常
+		        	throw new RuntimeException("未配置七牛云，上传文件失败，请到后台配置！");
 				}
 			}
         	
@@ -110,6 +112,10 @@ public class FileServiceImpl implements FileService {
             fileDao.save(dbfile);
         } catch (IOException e) {
             logger.error("上传文件失败");
+            e.printStackTrace();
+            throw new RuntimeException("上传文件失败");
+        } catch(Exception e) {
+        	logger.error("上传文件失败");
             e.printStackTrace();
             throw new RuntimeException("上传文件失败");
         }

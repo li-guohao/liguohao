@@ -35,7 +35,7 @@ public class OptionServiceImpl implements OptionService{
         PagingData<Option> pagingData = new PagingData<Option>(currentPage,pageSize);
 
         //limit a,b a是从0开始，所以下方需要减一
-        List<Option> optionList = optionDao.findAllByPaging(currentPage-1, pageSize);
+        List<Option> optionList = optionDao.findAllByPaging((currentPage-1)*pageSize , pageSize);
 
         // 设置总数
         Long count = optionDao.count();

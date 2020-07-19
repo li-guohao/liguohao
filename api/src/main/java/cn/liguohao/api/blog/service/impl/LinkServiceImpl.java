@@ -29,6 +29,7 @@ public class LinkServiceImpl implements LinkService {
     public Link save(Link link) {
         // 父ID不存在时设置为-1
         if(link.getPartentLid()==null || "".equals(link.getPartentLid().toString())) link.setPartentLid(-1L);
+        link.setBlank(true);  //默认打开新窗口
         return linkDao.save(link);
     }
 

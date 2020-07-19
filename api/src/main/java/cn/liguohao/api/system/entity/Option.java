@@ -20,7 +20,7 @@ public class Option {
     @Column(name = "option_name")
     private String optionName;      // 设置名称
 
-    @Column(name = "option_value", columnDefinition="mediumtext")
+    @Column(name = "option_value",  columnDefinition="mediumtext")
     private String optionValue;     // 设置值
     
     @Column(name = "option_desc")
