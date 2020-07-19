@@ -124,7 +124,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<!--<finalName>ROOT</finalName>-->
+		<finalName>api.liguohao.cn</finalName>
 	</build>
   
 </project>
