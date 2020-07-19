@@ -44,13 +44,6 @@ export default {
     this.getLinkList()
     // 获取footer处的HTML片段信息
     this.getFooterInfo()
-    // 继承vue对象
-    const that = this 
-    this.changeStyleByScreenWidth()
-    // 将根据屏幕宽度改变样式函数挂载到window对象上
-    window.onresize = () => {
-      that.changeStyleByScreenWidth()
-    }
   },
   // 挂载数据
   mounted(){

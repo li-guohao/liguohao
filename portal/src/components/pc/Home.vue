@@ -25,7 +25,7 @@
               <el-row  >
 
                 <!-- 置顶文章 -->
-                <el-col  :span="24"  v-for="article in newestArticles" :key="article.aid">
+                <el-col  :span="24"  v-for="article in newestArticles" :key="'topAricle-'+article.aid">
                     <div class="mouseOverBoxShade article" v-if="article.top === 1">
                       <i class="fa fa-bookmark article-stick "></i>
                       <!-- 标题 -->
@@ -38,7 +38,7 @@
                       <div >
                         <span class="label label-zan"><i class="fa fa-eye"></i> {{article.readCount === null?0:article.readCount}} ℃</span>
                         <span class="label label-zan"><i class="fa fa-comments"></i>{{article.commentCount === null?0:article.commentCount}}</span>
-                        <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime }}</span>
+                        <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime | formatDate }}</span>
                       </div>
                       
                       <!-- 简介 -->
@@ -74,7 +74,10 @@
                       <div >
                         <span class="label label-zan"><i class="fa fa-eye"></i> {{article.readCount === null?0:article.readCount}} ℃</span>
                         <span class="label label-zan"><i class="fa fa-comments"></i>{{article.commentCount === null?0:article.commentCount}}</span>
-                        <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime }}</span>
+                        <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime | formatDate  }}</span>
+                        <span class="label label-zan"><i class="fa fa-tags"></i> 
+                            <span v-for="tag in article.tags" :key="tag.tid">{{tag.name}}</span>
+                        </span>
                       </div>
                       
                       <!-- 简介 -->
@@ -85,13 +88,14 @@
                           <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
                           <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
                         </a> -->
+                        <div class="info"> 
+                          <p>{{article.description}}</p>
+                        </div> 
                         <div class="img"> 
                           <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
                           <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
                         </div> 
-                        <div class="info"> 
-                          <p>{{article.description}}</p>
-                        </div> 
+                        
                       </div>
                       
                     </div>
@@ -164,7 +168,7 @@
               <i class="fa fa-fire"></i>  热门文章
             </div>
             <div class="moudle-body hotArticle">
-                <a v-for="article in hottestArticles" :key="article.aid"  :href="'/article/info/'+article.aid">{{article.title}}--{{article.readCount === null?0:article.readCount}}浏览</a>
+                <a v-for="article in hottestArticles" :key="'hotArticle-'+article.aid"  :href="'/article/info/'+article.aid">{{article.title}}--{{article.readCount === null?0:article.readCount}}浏览</a>
             </div>
             
           </div>
@@ -181,6 +185,12 @@ export default {
   // 组件
   components: {
       aplayer
+  },
+  filters: {
+      // 日期格式化日
+      formatDate(time) {
+        return time.substring(0,10)
+      }
   },
   data(){
     return {

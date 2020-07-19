@@ -22,12 +22,8 @@ import Home from '@/components/pc/Home' //首页组件
 import Notfound from '@/components/pc/Notfound' //404Notfound组件
 import Error from '@/components/pc/Error' //500组件
 import Article from '@/components/pc/article/Article' //文章组件
-import ArticleInfo from '@/components/pc/article/ArticleInfo' //文章组件
-import Essay from '@/components/pc/Essay' //动态组件
-import Archive from '@/components/pc/Archive' //归档组件
+import ArticleInfo from '@/components/pc/article/ArticleInfo' //文章详情组件
 import Tags from '@/components/pc/Tags' //标签墙组件
-import FriendLinks from '@/components/pc/FriendLinks' //友链组件
-import About from '@/components/pc/About' //关于我组件
 import SearchResult from '@/components/pc/SearchResult' //查询结果页面组件
 // 测试组件
 import Test from '@/components/Test' //查询结果页面组件
@@ -68,24 +64,8 @@ const routes = [
   },
   { path: '/article/info/:aid', component: ArticleInfo },
   {
-    path: '/archive',
-    component: Archive
-  },
-  {
-    path: '/essay',
-    component: Essay
-  },
-  {
     path: '/tags',
     component: Tags
-  },
-  {
-    path: '/friendLinks',
-    component: FriendLinks
-  },
-  {
-    path: '/about',
-    component: About
   },
   { //后台管理
     path: '/manager',

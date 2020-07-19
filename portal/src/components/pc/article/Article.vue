@@ -31,17 +31,23 @@
                       <span v-else>暂无标题</span>
                     </div></a>
                     <!-- 数据 -->
-                  浏览-{{article.readCount === null?0:article.readCount}}
-                  评论-{{article.commentCount === null?0:article.commentCount}}
-                  标签:<span v-for="tag in article.tags" :key="tag.tid">{{tag.name}}</span>
-                  <br>
-                  更新于{{article.updateTime}}
-                  <br>
-                  <!-- 简介 -->
-                  {{article.description}}
+                    <div >
+                        <span class="label label-zan"><i class="fa fa-eye"></i> {{article.readCount === null?0:article.readCount}} ℃</span>
+                        <span class="label label-zan"><i class="fa fa-comments"></i>{{article.commentCount === null?0:article.commentCount}}</span>
+                        <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime | formatDate}}</span>
+                        <span class="label label-zan"><i class="fa fa-tags"></i> 
+                            <span v-for="tag in article.tags" :key="tag.tid">{{tag.name}}</span>
+                        </span>
+                    </div>
+                    <!-- 简介 -->
+                    <div class="articleDesc">
+                      {{article.description}}
+                    </div>
                     <!-- 图片 -->
-                    <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
-                    <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
+                    <div class="thumbnail">
+                      <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
+                      <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
+                    </div>
                   </div>
                 </div>
               </el-col>
@@ -77,6 +83,12 @@ export default {
             dataArray:[]
         }
       }
+    },
+    filters: {
+        // 日期格式化日
+        formatDate(time) {
+            return time.substring(0,10)
+        }
     },
     created(){
       // 初始化操作
@@ -121,6 +133,25 @@ export default {
   }
 }
 
+  // 标签
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    margin: 0 5px;
+}
+.label-zan {
+    background-color: rgba(10,10,0,0.7);
+}
 
-	
+.articleDesc{
+  margin: 5px 0;
+}
 </style>

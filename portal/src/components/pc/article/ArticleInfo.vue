@@ -7,42 +7,38 @@
                     <el-col :span="20" >
                         <div class="part mouseOverBoxShade">
                         <!-- 标题 -->
-                        <a @click="toArticleInfo(article.aid)"><div class="title" >
-                                <span v-if="article.title !== ''">{{article.title}}</span>
-                                <span v-else>暂无标题</span>
+                        <a @click="toArticleInfo(article.aid)">
+                            <div class="title">
+                            <span v-if="article.title !== ''">{{article.title}}</span>
+                            <span v-else>暂无标题</span>
                         </div></a>
                         <!-- 数据 -->
-                浏览-{{article.readCount === null?0:article.readCount}}
-                评论-{{article.commentCount === null?0:article.commentCount}}
-                标签:<span v-for="(tag) in article.tags" :key="tag.tid" >
-                        {{tag.name}} 
-                     </span>
-                <br>
-                更新于{{article.updateTime}}
-                        <!-- 音乐播放器 -->
-                        <div   style="display:block">
-                        <aplayer :autoplay='false' :listFolded="true" controls :volume='0.01' :float='false' :mini='false'
-                            repeat='repeat-all'
-                            :music="{
-                            title: '花鳥風月',
-                            artist: 'Angel Note',
-                            src: 'https://resource.tobeshrek.com/bgm/bgm.mp3',
-                            pic: 'https://resource.tobeshrek.com/bgm/bgm.jpg'
-                            }"
-                        />
+                        <div >
+                            <span class="label label-zan"><i class="fa fa-eye"></i> {{article.readCount === null?0:article.readCount}} ℃</span>
+                            <span class="label label-zan"><i class="fa fa-comments"></i>{{article.commentCount === null?0:article.commentCount}}</span>
+                            <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime | formatDate}}</span>
+                            <span class="label label-zan"><i class="fa fa-tags"></i> 
+                                <span v-for="tag in article.tags" :key="tag.tid">{{tag.name}}</span>
+                            </span>
                         </div>
-                        <!-- 内容 -->
-                        <mavon-editor class="mavonEditor" 
-                            :value="article.content"
-                            :subfield = "false"
-                            :defaultOpen = "'preview'"
-                            :toolbarsFlag = "false"
-                            :editable="false"
-                            :scrollStyle="true"
-                            :ishljs = "true"
-                            >
-                        </mavon-editor>
-                        </div>
+                        <!-- 简介 -->
+                        <div class="info"> 
+                          <p>{{article.description}}</p>
+                        </div> 
+                        <!-- 文章封面 -->
+                        <img :src="article.thumbnail" width="100%">
+                    <!-- 内容 -->
+                    <mavon-editor class="mavonEditor" 
+                        :value="article.content"
+                        :subfield = "false"
+                        :defaultOpen = "'preview'"
+                        :toolbarsFlag = "false"
+                        :editable="false"
+                        :scrollStyle="true"
+                        :ishljs = "true"
+                        >
+                    </mavon-editor>
+                    </div>
                     </el-col>
                     <!-- 右边页面内快速定位栏 -->
                     <el-col :span="4">
@@ -67,6 +63,12 @@ export default {
     // 组件
     components: {
         aplayer
+    },
+    filters: {
+        // 日期格式化日
+        formatDate(time) {
+            return time.substring(0,10)
+        }
     },
     data(){
         return{
@@ -136,6 +138,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 .articleInfo{
     width: 90%;
     margin-top: 5px;
@@ -174,6 +177,34 @@ a:hover, a:focus {
     background-color: slateblue;
 }
 
+  // 标签
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    margin: 0 5px;
+}
+.label-zan {
+    background-color: rgba(10,10,0,0.7);
+}
+// 标题
+.title{
+    font-size: 30px;
+    color: rgba(8, 80, 189, 0.7);
+    transition: all 0.5s ease-in-out; /* 缓慢变化效果 */
+}
 
-
+.part {
+    img {
+        margin-top: 5px;
+        width: 100%;
+    }
+}
 </style>
