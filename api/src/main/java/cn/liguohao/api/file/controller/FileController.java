@@ -79,13 +79,13 @@ public class FileController {
     }
 
     // 查询文件 根据类型
-    @GetMapping("/list/{type}/{currentPage}/{pageSize}")
-    public Result findAll(HttpServletRequest request,@PathVariable String type,
+    @GetMapping("/list/{currentPage}/{pageSize}")
+    public Result findAll(HttpServletRequest request,
                           @PathVariable Integer currentPage,
                           @PathVariable  Integer pageSize) {
         Result result = new Result();
         try {
-        	PagingData<File> pagingData = fileService.fingAllByPageingAndType(type,currentPage, pageSize);
+        	PagingData<File> pagingData = fileService.fingAllByPageingAndType(currentPage, pageSize);
             result.setMeta(new Meta(200,"查询所有文件成功"));
             result.setData(pagingData);
 
@@ -98,11 +98,10 @@ public class FileController {
 
     // 根据fid删除文件，同时通过FTP从服务器删除文件
     @DeleteMapping("/{fid}")
-    public Result deleteOneByFid(@PathVariable Long fid, HttpServletRequest request){
-        Long uid = Long.valueOf(request.getHeader("UID"));
+    public Result deleteOneByFid(@PathVariable Long fid){
         Result result = new Result();
         try {
-            fileService.deleteFileByFid(fid,uid);
+            fileService.deleteFileByFid(fid);
             result.setMeta(new Meta(200,"删除文件成功"));
         }catch (Exception e){
             e.printStackTrace();

@@ -19,10 +19,30 @@ SELECT 'siteInfo','footer','这是默认的尾部声名 ', '站点尾部声名' 
 	WHERE option_category='siteInfo' and option_name = 'footer'
 );
 
----- 文件管理的储存策略
+---- 文件管理-七牛云
 INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
-SELECT 'fileManager','storagePolicies','本地','文件管理的储存策略' FROM DUAL WHERE NOT EXISTS(
+SELECT 'qiniuoss','qiniuAccessKey','','七牛云权限配置信息' FROM DUAL WHERE NOT EXISTS(
 	SELECT * FROM system_option 
-	WHERE option_category='fileManager' and option_name = 'storagePolicies'
+	WHERE option_category='qiniuoss' and option_name = 'qiniuAccessKey'
+);
+INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
+SELECT 'qiniuoss','qiniuSecretKey','','七牛云权限配置信息' FROM DUAL WHERE NOT EXISTS(
+	SELECT * FROM system_option 
+	WHERE option_category='qiniuoss' and option_name = 'qiniuSecretKey'
+);
+INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
+SELECT 'qiniuoss','qiniuBucket','','七牛云对象储存bucket名称' FROM DUAL WHERE NOT EXISTS(
+	SELECT * FROM system_option 
+	WHERE option_category='qiniuoss' and option_name = 'qiniuBucket'
+);
+INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
+SELECT 'qiniuoss','qiniuPath','','七牛云对象储存外网访问路径' FROM DUAL WHERE NOT EXISTS(
+	SELECT * FROM system_option 
+	WHERE option_category='qiniuoss' and option_name = 'qiniuPath'
+);
+INSERT INTO system_option (option_category,option_name,option_value,option_desc)  
+SELECT 'qiniuoss','qiniuRegion','','七牛云对象储存地域信息' FROM DUAL WHERE NOT EXISTS(
+	SELECT * FROM system_option 
+	WHERE option_category='qiniuoss' and option_name = 'qiniuRegion'
 );
 

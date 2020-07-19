@@ -15,8 +15,8 @@ import java.util.List;
  */
 public interface FileDao extends JpaRepository<File,Long>,JpaSpecificationExecutor<File> {
 
-    @Query(value = "select * from file where type = ?1 limit ?2,?3",nativeQuery = true)
-    List<File> fingAllByPageingAndType(String type, Integer currentPage, Integer pageSize);
+    @Query(value = "select * from file  limit ?1,?2",nativeQuery = true)
+    List<File> fingAllByPageingAndType( Integer currentPage, Integer pageSize);
 
     File findFileByFid(Long fid);
 }
