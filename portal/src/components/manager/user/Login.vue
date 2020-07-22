@@ -92,7 +92,7 @@ export default {
     },
     // 通过QQ登陆
     QQLogin(){
-      var url = 'https://graph.qq.com/oauth2.0/authorize';
+      var url = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101889588&redirect_uri=https%3A%2F%2Fapi.liguohao.cn%2Fsystem%2Fuser%2Fqq%2Fcallback&state=api.liguohao.cn&scope=get_user_info';
       window.location=url;
     }
   }

@@ -51,7 +51,7 @@
                         </a> -->
                         <div class="img"> 
                           <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
-                          <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
+                          <img v-if='article.thumbnail === null' src="http://qiniu.liguohao.cn/2020_7_19_0A74BC02DE9343999834DB32C514887A.png" alt="丛雨天下第一">
                         </div> 
                         <div class="info"> 
                           <p>{{article.description}}</p>
@@ -61,7 +61,7 @@
                 </el-col>
 
                 <!-- 其它文章 -->
-                <el-col :span="24"  v-for="article in newestArticles" :key="article.aid">
+                <el-col :span="24"  v-for="article in newestArticles" :key="'newestArticle'+article.aid">
                     <div class="mouseOverBoxShade article" v-if="article.top !== 1">
                       <i class="fa fa-bookmark article-stick "></i>
                       <!-- 标题 -->
@@ -76,26 +76,23 @@
                         <span class="label label-zan"><i class="fa fa-comments"></i>{{article.commentCount === null?0:article.commentCount}}</span>
                         <span class="label label-zan"><i class="fa fa-calendar"></i> {{article.updateTime | formatDate  }}</span>
                         <span class="label label-zan"><i class="fa fa-tags"></i> 
-                            <span v-for="tag in article.tags" :key="tag.tid">{{tag.name}}</span>
+                            <span v-for="tag in article.tags" :key="'articleTags'+tag.tid">{{tag.name}}</span>
                         </span>
                       </div>
                       
-                      <!-- 简介 -->
-                      <!-- <p>{{article.description}}</p> -->
-                      <!-- 图片 -->
+                      
                       <div class="cover mouseOverBoxShade">
-                        <!-- <a @click="toArticleInfo(article.aid)"> 
+                        <!-- 图片 -->
+                        <div class="img"> 
                           <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
-                          <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
-                        </a> -->
+                          <img v-if='article.thumbnail === null' src="http://qiniu.liguohao.cn/2020_7_19_0A74BC02DE9343999834DB32C514887A.png" alt="丛雨天下第一">
+                        </div> 
+
+                        <!-- 简介 -->
                         <div class="info"> 
                           <p>{{article.description}}</p>
                         </div> 
-                        <div class="img"> 
-                          <img v-if='article.thumbnail !== null' :src="article.thumbnail" alt="丛雨天下第一">
-                          <img v-if='article.thumbnail === null' src="https://resource.tobeshrek.com/images/galgame/senrenbanka/1.jpg" alt="丛雨天下第一">
-                        </div> 
-                        
+
                       </div>
                       
                     </div>
@@ -108,10 +105,10 @@
         </div></el-col>
         <el-col  :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
           <div >
-          <!-- 全站检索&数据统计&BGM -->
+          <!-- 全站检索&数据统计 -->
           <div class=" moduleBgChange mouseOverBoxShade" >
             <div class="search"> 
-              <input v-model="titlePart" @keypress.enter="searchArticles" type="text" placeholder="请输入搜索关键词, 按回车键搜索">
+              <input v-model="titlePart" @keypress.enter="searchArticles" type="text" placeholder="请输入搜索文章标题, 按回车键搜索">
               <button @click="searchArticles"> <i class="fa fa-search"></i></button>
             </div>
           </div>
@@ -122,14 +119,14 @@
             </div>
             <div class="moudle-body userInfo">
               <div class="avatar">
-                <img :src="user.headPortraitUrl !== null ? user.headPortraitUrl : 'https://resource.tobeshrek.com/images/avatar.jpg'" alt="tobeshrek" />
+                <img :src="user.headPortraitUrl !== null ? user.headPortraitUrl : 'http://qiniu.liguohao.cn/2020_7_19_4743BFA6C6B543C2B537A1F6C01F332B.jpg'" alt="图片无法访问" />
               </div>
             
               <!-- 社交链接 -->
-              <a :href="socialUrl.github" target="_blank"><i class="fa fa-github-square"></i></a>
+              <a :href="user.githubUrl" target="_blank"><i class="fa fa-github-square"></i></a>
               <a href="#" @click="QQDialogVisible = true" ><i class="fa fa-qq"></i></a>
               <a href="#" @click="WechatDialogVisible = true" ><i class="fa fa-weixin"></i></a>
-              <a :href="socialUrl.bilibili" target="_blank"><img class="icon"  src="@/assets/images/icon/bilibili.png" alt=""></a>
+              <a :href="'https://space.bilibili.com/'+user.buid" target="_blank"><img class="icon"  src="@/assets/images/icon/bilibili.png" alt=""></a>
               <!-- <a href="/ss" ><i class="fa fa-steam"></i></a> -->
               <!-- QQ对话框 -->
               <el-dialog title="扫码加QQ" :visible.sync="QQDialogVisible" width="350px">
@@ -138,7 +135,7 @@
                   >
                 </el-alert>
                 <br>
-                <img width="200px" :src="socialUrl.qq" alt="扫码加QQ">
+                <img width="200px" :src="user.qqImg" alt="扫码加QQ">
               </el-dialog>
               <!-- 微信对话框 -->
               <el-dialog title="扫描加微信" :visible.sync="WechatDialogVisible" width="350px">
@@ -147,7 +144,7 @@
                   >
                 </el-alert>
                 <br>
-                <img width="200px" :src="socialUrl.wechat" alt="扫描加微信">
+                <img width="200px" :src="user.wechatImg" alt="扫描加微信">
               </el-dialog>
               <br>
               <!-- 数据统计 -->
@@ -179,12 +176,11 @@
 </template>
 
 <script>
-import aplayer from 'vue-aplayer'
 
 export default {
   // 组件
   components: {
-      aplayer
+
   },
   filters: {
       // 日期格式化日
@@ -204,14 +200,6 @@ export default {
       hotest_number: 10,
       // 首页文章显示条数
       article_number:6,
-      // 社交URL
-      socialUrl:{
-        github:'https://github.com/li-guohao',
-        qq:'http://static.liguohao.cn/images/socialUrl/qq.jpg',
-        wechat:'http://static.liguohao.cn/images/socialUrl/wechat.png',
-        bilibili:'https://space.bilibili.com/118744944',
-        steam:''
-      },
       // 热门文章
       hottestArticles:[],
       // 最新文章
@@ -224,7 +212,7 @@ export default {
       articleListData:{
           total:0,
           currentPage:1,
-          pageSize:6,
+          pageSize:1000,
           dataArray:[]
       },
       // 查询用文章标题关键词
@@ -232,14 +220,14 @@ export default {
     }
   },
   created(){
+    // 获取所有文章 用于计数
+    this.getArticleListData()
     // 获取首页公告
     this.getNotice()
     // 获取用户信息
     this.getUserInfo()
     // 获取热门文章信息
     this.getHottestArticles()
-    // 获取最新动态
-    //this.getNewestEssay()
     // 获取最新文章信息
     this.getNewestArticles()
     // 测试方法
@@ -262,10 +250,17 @@ export default {
     }
   },
   methods:{
+    // 获取所有文章 用于计数
+    async getArticleListData(){
+      const {data:res} = await this.$http.get(`blog/article/list/${this.articleListData.currentPage}/${this.articleListData.pageSize}`)
+      //console.log(res)
+      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取所有文章失败！返回信息：'+ res.meta.msg)
+      this.articleListData = res.data
+    },
     // 获取用户信息
     async getUserInfo(){
       const {data:res} = await this.$http.get(`system/user/info/1`)
-      // console.log(res)
+      //console.log(res)
       if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取用户信息！返回信息：'+ res.meta.msg)
       this.user = res.data
     },
@@ -279,19 +274,11 @@ export default {
     },
     // 获取最新文章信息
     async getNewestArticles(){
-       const {data: res} = await this.$http.get(`blog/article/newest/${this.article_number}`)
-      // console.log(res)
+      const {data: res} = await this.$http.get(`blog/article/newest/${this.article_number}`)
+      //console.log(res)
       if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取最新文章失败！返回信息：'+res.meta.msg)
       //this.$message.success('获取最新文章数据成功'+res.meta.msg)
       this.newestArticles = res.data
-    },
-    // 获取最新动态信息
-    async getNewestEssay(){
-       const {data: res} = await this.$http.get(`blog/article/newest/${this.essay_number}`)
-      // console.log(res)
-      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取最新动态失败！返回信息：'+res.meta.msg)
-      //this.$message.success('获取最新文章数据成功'+res.meta.msg)
-      this.newestEssay = res.data
     },
     // 获取首页公告
     async getNotice(){

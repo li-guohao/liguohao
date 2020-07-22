@@ -11,11 +11,11 @@
     <!-- 头部导航栏 -->
     <div class="header" >
       <!-- logo -->
-      <a href="#/" class="logo">{{logo}}</a>
+      <a href="/" class="logo">{{logo}}</a>
       <!-- 主链接 -->
-      <a :key='index' v-for='(item,index) in headerUrls' :href="item.url" ><i :class="item.iconClass"></i>{{item.name}}</a>
+      <a :key="'headerUrl'+index" v-for='(item,index) in headerUrls' :href="item.url" ><i :class="item.iconClass"></i>{{item.name}}</a>
       <!-- 后台自定义导航链接 -->
-      <a :key='link.lid' v-for='link in linkList' :href="link.targetUrl" >
+      <a :key="'link'+link.lid" v-for='link in linkList' :href="link.targetUrl" >
         <img :src="link.img" alt="" class="headerLinkIcon">
         {{link.name}}
       </a>
@@ -26,11 +26,12 @@
     <div class="footer " v-html="footerInfo"></div>    
     <!-- 后台接口异常时处理判断 -->
     <div  v-if="footerInfo === ''"  class="footer ">
-      <p><a href="https://liguohao.cn">小站</a>  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="https://liguohao.cn">@tobeshrek.com</a>
-      <font color="white">  Made By </font> 
-      <a href="https://liguohao.cn"> li-guohao</a>
-      <br>
-      <a  href="http://beian.miit.gov.cn/" target="_blank">备案号：赣ICP备19013362号-1</a>
+      <p>
+        <a href="https://liguohao.cn">小站</a>  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="https://liguohao.cn">@liguohao.cn</a>
+        <font color="white">  Made By </font> 
+        <a href="https://liguohao.cn"> li-guohao</a>
+        <br>
+        <a  href="http://beian.miit.gov.cn/" target="_blank">备案号：赣ICP备19013362号-3</a>
       </p>
     </div>
   </div>
@@ -75,7 +76,7 @@ export default {
     // 获取footer处的HTML片段信息
     async getFooterInfo(){
       const {data: res} = await this.$http.get(`system/option/one/siteInfo/footer`);
-      console.log(res)
+      //console.log(res)
       if( res.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res.meta.msg)
       // else this.$message.success(res.meta.msg)
       this.footerInfo = res.data.optionValue

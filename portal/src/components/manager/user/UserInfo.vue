@@ -60,15 +60,20 @@
                 <el-tab-pane label="账号绑定" name="fourth">
                     <!-- bilibiliUUID -->
                     <el-tag>B站UUID</el-tag>
-                    <el-input v-model="user.buid" placeholder="B站UUID"></el-input>
+                    <el-input v-model="user.buid" placeholder="118744944"></el-input>
                     <br>
-                    <!-- QQ号 -->
-                    <el-tag>QQ号</el-tag>
-                    <el-input v-model="user.qq" placeholder="QQ号"></el-input>
                     <br>
-                    <!-- 微信号 -->
-                    <el-tag>微信号</el-tag>
-                    <el-input v-model="user.wechat" placeholder="微信号"></el-input>
+                    <!-- QQ号图片 -->
+                    <el-tag>QQ号图片URL</el-tag>
+                    <el-input v-model="user.qqImg" placeholder="http://qiniu.liguohao.cn/2020_7_19_7A29FC0636D34006BE1388368CC38B46.png"></el-input>
+                    <br>
+                    <!-- 微信号图片 -->
+                    <el-tag>微信号图片URL</el-tag>
+                    <el-input v-model="user.wechatImg" placeholder="http://qiniu.liguohao.cn/2020_7_19_051B1014191B467C9EA80850B16CC5CD.png"></el-input>
+                    <br>
+                    <!-- GitHub主页URL -->
+                    <el-tag>GitHub主页URL</el-tag>
+                    <el-input v-model="user.githubUrl" placeholder="https://github.com/li-guohao"></el-input>
                     <br>
                 </el-tab-pane>
             </el-tabs>

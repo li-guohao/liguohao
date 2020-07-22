@@ -61,6 +61,8 @@ export default {
             // 文章数据表单
             articleForm: {
                 title: '',
+                isOpen: '',
+                top:'',
                 description: '',
                 content: '',
                 status: 2,   //默认文章保存为已发布

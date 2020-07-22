@@ -11,9 +11,9 @@ import 'mavon-editor/dist/css/index.css'          // 导入markdown编辑器对�
 import axios from 'axios'
 // 配置请求的跟路径
 // 本地开发
-axios.defaults.baseURL = 'http://localhost:8888/'
+// axios.defaults.baseURL = 'http://localhost:8888/'
 // 线上部署
-// axios.defaults.baseURL = 'https://api.liguohao.cn/'
+axios.defaults.baseURL = 'https://api.liguohao.cn/'
 
 
 // http request 拦截器 作用是添加全局请求头
