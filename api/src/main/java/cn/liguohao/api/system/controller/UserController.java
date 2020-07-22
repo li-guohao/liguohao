@@ -207,14 +207,21 @@ public class UserController {
      
                 QQ qqDateBase = qqService.findQQByOpenID(openID);
                 // 根据传递的请求头UID判断
-                if(qqDateBase==null || "".equals(qqDateBase)) { // 数据库不存在绑定操作
-                	qq.setUserEmail(qqUserEmail);
-                	qqService.save(qq);
-                	User user = userService.findUserByEmail(qqUserEmail);
-            		String uidAndToken = user.getUid() + "&" + user.getToken();
-                	map.addAttribute("uidAndToken",uidAndToken);  //返回格式： UID&token
-            		map.addAttribute("msg","绑定成功，请稍后");
-            		map.addAttribute("domain","https://liguohao.cn/manager/user/userInfo");
+                if(qqDateBase==null || "".equals(qqDateBase)) { // 数据库不存在
+                	// 判断此邮箱是否已经绑定了QQ用户
+                	QQ qqExist = qqService.findQQByUserEmail(qqUserEmail);
+                	if(qqExist!=null) { //已经绑定了QQ用户
+                		map.addAttribute("msg","非常抱歉，此网站不支持用户注册，目前仅支持单用户");
+                		map.addAttribute("domain","https://liguohao.cn/login");
+                	}else { //为绑定管理猿QQ用户
+                		qq.setUserEmail(qqUserEmail);
+                		qqService.save(qq);
+                		User user = userService.findUserByEmail(qqUserEmail);
+                		String uidAndToken = user.getUid() + "&" + user.getToken();
+                		map.addAttribute("uidAndToken",uidAndToken);  //返回格式： UID&token
+                		map.addAttribute("msg","绑定成功，请稍后");
+                		map.addAttribute("domain","https://liguohao.cn/login");
+                	}
                 }else { //非绑定操作
                 	// 快速登陆操作
                 	// 根据OpenID查询数据库

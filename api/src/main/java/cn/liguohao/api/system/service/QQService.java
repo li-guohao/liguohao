@@ -13,4 +13,6 @@ public interface QQService {
 	QQ findQQByOpenID(String openID);
 	
 	void save(QQ qq);
+	
+	QQ findQQByUserEmail(String userEmail);
 }

@@ -21,6 +21,15 @@ public interface QQDao extends JpaRepository<QQ,Long>,JpaSpecificationExecutor<Q
 	* @return: QQ
 	*/
 	QQ findQQByOpenID(String openID);
+	
+	/**
+	 * @Title: findQQByUserEmail
+	 * @Description: 根据绑定的邮件查询
+	 * @param userEmail
+	 * @return
+	 * @return: QQ
+	 */
+	QQ findQQByUserEmail(String userEmail);
 
 }
 

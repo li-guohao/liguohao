@@ -28,4 +28,9 @@ public class QQServiceImpl implements QQService {
 		qqdao.save(qq);
 	}
 
+	@Override
+	public QQ findQQByUserEmail(String userEmail) {
+		return qqdao.findQQByUserEmail(userEmail);
+	}
+
 }
