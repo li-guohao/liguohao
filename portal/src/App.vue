@@ -39,12 +39,29 @@
 
 <script>
 export default {
-  
+  metaInfo(){
+    return {
+      title: this.title, // set a title
+      meta: [{                 // set meta
+        name: this.keyWords,
+        content: this.content
+      }],
+      link: [{                 // set link
+        rel: 'icon',
+        href: this.linkIcon
+      },{
+        rel: 'shortcut icon',
+        href: this.linkIcon
+      }]
+    }
+  },
   created(){
     // 获取导航链接
     this.getLinkList()
     // 获取footer处的HTML片段信息
     this.getFooterInfo()
+    // 获取meta相关信息
+    this.getMetaInfo()
   },
   // 挂载数据
   mounted(){
@@ -55,6 +72,10 @@ export default {
   },
   data(){
     return {
+      title:'',
+      keyWords:'',
+      content:'',
+      linkIcon:'',
       // 后台状态标识符
       apiStatusFlag: false,
       // logo文本
@@ -73,6 +94,36 @@ export default {
     }
   },
   methods:{
+    // 获取meta相关信息
+    async getMetaInfo(){
+      // title
+      const {data: res1} = await this.$http.get(`system/option/one/siteInfo/title`);
+      //console.log(res1)
+      if( res1.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res1.meta.msg)
+      // else this.$message.success(res1.meta.msg)
+      this.title = res1.data.optionValue
+
+      // keyWords
+      const {data: res2} = await this.$http.get(`system/option/one/siteInfo/metaKeyWords`);
+      //console.log(res2)
+      if( res2.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res2.meta.msg)
+      // else this.$message.success(res2.meta.msg)
+      this.keyWords = res2.data.optionValue
+      
+      // content
+      const {data: res3} = await this.$http.get(`system/option/one/siteInfo/metaDescription`);
+      //console.log(res2)
+      if( res3.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res3.meta.msg)
+      // else this.$message.success(res3.meta.msg)
+      this.content = res3.data.optionValue
+      
+      // linkIcon
+      const {data: res4} = await this.$http.get(`system/option/one/siteInfo/linkIcon`);
+      //console.log(res2)
+      if( res4.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res4.meta.msg)
+      // else this.$message.success(res4.meta.msg)
+      this.linkIcon = res4.data.optionValue
+    },
     // 获取footer处的HTML片段信息
     async getFooterInfo(){
       const {data: res} = await this.$http.get(`system/option/one/siteInfo/footer`);

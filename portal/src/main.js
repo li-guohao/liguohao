@@ -7,6 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'     // 导入element-ui样式文�
 import './assets/lib/font-awesome/css/font-awesome.min.css' //引入fa字体图标库
 import mavonEditor from 'mavon-editor'            // 导入markdown编辑器
 import 'mavon-editor/dist/css/index.css'          // 导入markdown编辑器对应的样式文件
+import MetaInfo from 'vue-meta-info'              // metaInfo
 
 import axios from 'axios'
 // 配置请求的跟路径
@@ -31,6 +32,7 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
+Vue.use(MetaInfo)
 
 
 
