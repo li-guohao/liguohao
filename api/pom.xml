@@ -112,8 +112,19 @@
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpclient</artifactId>
 		</dependency>
-			
-				
+		
+		<!--QQ第三方登录所需-->
+	    <dependency>
+	       <groupId>net.gplatform</groupId>
+	       <artifactId>Sdk4J</artifactId>
+	       <version>2.0</version>
+	    </dependency>	
+		
+		<!-- freemarker -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
 
     </dependencies>
 

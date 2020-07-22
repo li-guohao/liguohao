@@ -1,6 +1,8 @@
 package cn.liguohao.api.system.controller;
 
-import java.net.URLEncoder;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.qq.connect.QQConnectException;
+import com.qq.connect.api.OpenID;
+import com.qq.connect.api.qzone.UserInfo;
+import com.qq.connect.javabeans.AccessToken;
+import com.qq.connect.javabeans.qzone.UserInfoBean;
+import com.qq.connect.oauth.Oauth;
 
 import cn.liguohao.api.response.Meta;
 import cn.liguohao.api.response.PagingData;
@@ -29,7 +38,6 @@ import cn.liguohao.api.system.entity.QQ;
 import cn.liguohao.api.system.entity.User;
 import cn.liguohao.api.system.service.QQService;
 import cn.liguohao.api.system.service.UserService;
-import cn.liguohao.api.utils.BeanUtil;
 import cn.liguohao.api.utils.UUIDUtils;
 
 /**
@@ -60,24 +68,9 @@ public class UserController {
      */
     @Value("${MODE}")
     private String MODE;
+    @Value("${QQ_USER_EMAIL}")
+    private String qqUserEmail;
     
-    @Value("${app_ID}")
-    private String appID;
-    
-    @Value("${app_KEY}")
-    private String appKEY;
-    
-    @Value("${redirect_URI}")
-    private String redirectURI;
-    
-    @Value("${authorizeURL}")
-    private String authorizeURL;
-    @Value("${accessTokenURL}")
-    private String accessTokenURL;
-    @Value("${getOpenIDURL}")
-    private String getOpenIDURL;
-    @Value("${getUserInfoURL}")
-    private String getUserInfoURL;
     
     // 接口导航
     @GetMapping("")
@@ -131,100 +124,117 @@ public class UserController {
     public void qqLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=utf-8");
         //QQ登陆第一步 重定向到授权页面
-        @SuppressWarnings("deprecation")
-		String callbackUrl = URLEncoder.encode(redirectURI);
-        String redirectAuthorizeURL = authorizeURL 
-        		+ "?response_type=code&client_id="+appID
-        		+ "&redirect_uri="+callbackUrl
-        		+"&state=api.liguohao.cn&scope=get_user_info";
-        logger.info("QQ登陆第一步：将要重定向到授权页面："+redirectAuthorizeURL);
-        response.sendRedirect(redirectAuthorizeURL);
+        try {
+        	String authorizeURL = new Oauth().getAuthorizeURL(request);
+            response.sendRedirect(authorizeURL);//将页面重定向到qq第三方的登录页面
+        } catch (QQConnectException e) {
+            e.printStackTrace();
+        }
     }
     
     @GetMapping("/qq/callback")
-    private Result qqCallback(HttpServletRequest request,HttpServletResponse response){
-    	Result result = new Result();
-    	try {
-    		// QQ登陆第二步 获取到 Authorization Code 返回第二步获取token的URL
-    		String code = request.getParameter("code");
-    		if(code==null || "".equals(code)) {
-    			result.setMeta(new Meta(404, "未获取到QQ登陆的Authorization Code"));
-    			return result;
-    		}
-    		
-    		@SuppressWarnings("deprecation")
-    		String callbackUrl = URLEncoder.encode(redirectURI); //对链接地址编码
-    		if(code!=null || !"".equals(code)) {  
-    			logger.info("QQ登陆第二步：已获取到Authorization Code，将要获取token");
-    			String redUrl = accessTokenURL+"?grant_type=authorization_code&client_id="+ appID 
-    					+ "&client_secret=" + appKEY 
-    					+ "&code=" + code
-						+ "&redirect_uri="+callbackUrl
-						;
-    			response.sendRedirect(redUrl);
-    		}
-    		// QQ登陆第三步 获取到Access Token 
-    		String accessToken = request.getParameter("access_token");   //授权令牌，Access_Token
-    		//String expiresIn = request.getParameter("expires_in");		 //该access token的有效期，单位为秒。
-    		//Date expiresInDate = new Date(Long.valueOf(expiresIn)); //有效期 转化成date
-    		//String refreshToken = request.getParameter("refresh_token"); //在授权自动续期步骤中，获取新的Access_Token时需要提供的参数。 
-    		if(accessToken!=null || !"".equals(accessToken)) {
-    			logger.info("QQ登陆第三步 已获取到Access Token ，将要获取OpenId");
-    			// 获取用户OpenID
-    			String getQQOpenIdUrl = getOpenIDURL 
-    					+"?access_token=" + accessToken
-    					+ "&unionid=1";
-    			// 因为返回的是JSON数据，不是GET请求，这里使用HttpClient请求
-    			String openIdJson = httpClent.doGetHtml(getQQOpenIdUrl);
-    			// 解析json数据
-    			Map openIdMap = (Map) JSON.parse(openIdJson);
-    			String openid = openIdMap.get("openid").toString();
-    			//String unionid = (String) openIdMap.get("unionid");
-    			
-    			logger.info("QQ登陆第四步 已获取到OpenId ，将要获取用户信息");
-    			// 取用户数据
-    			String getQQUserInfoUrl = getUserInfoURL 
-    					+"?access_token=" + accessToken
-    					+"&oauth_consumer_key=" + appID
-    					+ "&openid=" + openid;
-    			String userInfoJson = httpClent.doGetHtml(getQQUserInfoUrl);
-    			QQ qq = (QQ) JSON.parse(userInfoJson);
-    			// 设置token和openID
-    			qq.setToken(accessToken);
-    			qq.setOpenID(openid);
-    			// 根据openid查询数据库是否存在
-    			QQ qqExist = qqService.findQQByOpenID(openid);
-    			if(qqExist==null) { //此QQ未绑定任何用户
-    				// 返回未绑定用户信息
-    				String uid = request.getHeader("UID");
-    				if(uid!=null && !"".equals(uid)) {  // 已经登陆的状态
-    					// 绑定到用户
-    					User user = userService.findUserByUid(Long.valueOf(uid));
-    					qq.setUserEmail(user.getEmail());
-    					qqService.save(qq);
-    				}
-    				result.setMeta(new Meta(304, "请到后台绑定QQ用户，绑定后方可使用QQ快速登陆。"));
-    				return result;
-    			}			
-    			//已经绑定系统用户
-    			// 返回系统用户信息
-    			BeanUtil.copyFieldByIsExist(qq, qqExist); //讲qq中的字段属性 复制到 qqExist对象中
-    			User user = userService.findUserByEmail(qqExist.getUserEmail());
-    			
-    			result.setMeta(new Meta(200, "QQ第三方登陆成功"));
-    			result.setData(user);
-    			return result;
-    		}
-    		
-    		
-    		
-    		
-    		
-    	}catch (Exception e){
-    		e.printStackTrace();
-    		result.setMeta(new Meta(500,"Server Logic Exception ，User Login Faild",e.getMessage()));
-    	}
-    	return result;
+    private String qqCallback(HttpServletRequest request,HttpServletResponse response,ModelMap map) throws IOException{
+    	// 新建一个QQ用户 
+    	QQ qq = new QQ();
+    	
+    	logger.info("AfterLogin=======================================================");
+        response.setContentType("text/html; charset=utf-8");  // 响应编码
+     
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while(parameterNames.hasMoreElements()){
+            String parameterName = parameterNames.nextElement();//code
+            
+            logger.info(parameterName+":"+request.getParameter(parameterName));//state
+        }
+        String state = request.getSession().getAttribute("qq_connect_state").toString();
+        logger.info("qq_connect_state:"+state);
+     
+        try {
+            // 获取AccessToken(AccessToken用于获取OppendID)
+            AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
+            logger.info("accessTokenObj:"+accessTokenObj);
+            // 用于接收AccessToken
+            String accessToken   = null,
+                    openID        = null;
+            long tokenExpireIn = 0L; // AccessToken有效时长
+     
+            if (accessTokenObj.getAccessToken().equals("")) {
+                //                我们的网站被CSRF攻击了或者用户取消了授权
+                //                做一些数据统计工作
+            	logger.info("没有获取到响应参数");
+            } else {
+                accessToken = accessTokenObj.getAccessToken();  // 获取AccessToken
+                tokenExpireIn = accessTokenObj.getExpireIn();
+                logger.info("demo_access_token", accessToken);
+                logger.info("demo_token_expirein", String.valueOf(tokenExpireIn));
+                qq.setToken(accessToken);
+     
+                // 利用获取到的accessToken 去获取当前用的openid -------- start
+                OpenID openIDObj =  new OpenID(accessToken);
+                // 通过对象获取[OpendId]（OpendID用于获取QQ登录用户的信息）
+                openID = openIDObj.getUserOpenID();
+     
+                logger.info("欢迎你，代号为 " + openID + " 的用户!");
+                logger.info("demo_openid", openID);
+                qq.setOpenID(openID);
+                // 利用获取到的accessToken 去获取当前用户的openid --------- end
+     
+                logger.info("start -----------------------------------利用获取到的accessToken,openid 去获取用户在Qzone的昵称等信息 ---------------------------- start ");
+                // 通过OpenID获取QQ用户登录信息对象(Oppen_ID代表着QQ用户的唯一标识)
+                UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
+                // 获取用户信息对象(只获取nickename与Gender)
+                UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
+                if (userInfoBean.getRet() == 0) {
+                	logger.info("昵称："+userInfoBean.getNickname() );
+                	qq.setNickname(userInfoBean.getNickname());
+                	logger.info("性别："+userInfoBean.getGender() );
+                	qq.setGender(userInfoBean.getGender() );
+                	logger.info("黄钻等级： " + userInfoBean.getLevel() );
+                	logger.info("会员 : " + userInfoBean.isVip());
+                	logger.info("黄钻会员： " + userInfoBean.isYellowYearVip());
+                	logger.info("AvatarURL30=" + userInfoBean.getAvatar().getAvatarURL30());
+                	qq.setFigureurl(userInfoBean.getAvatar().getAvatarURL30());
+                	logger.info("AvatarURL50=" + userInfoBean.getAvatar().getAvatarURL50());
+                	qq.setFigureurl_1(userInfoBean.getAvatar().getAvatarURL50());
+                	logger.info("AvatarURL100=" + userInfoBean.getAvatar().getAvatarURL100());
+                	qq.setFigureurl_2(userInfoBean.getAvatar().getAvatarURL100());
+                } else {
+                	logger.info("很抱歉，我们没能正确获取到您的信息，原因是： " + userInfoBean.getMsg());
+                }
+                logger.info("end -----------------------------------利用获取到的accessToken,openid 去获取用户在Qzone的昵称等信息 ---------------------------- end ");
+     
+                QQ qqDateBase = qqService.findQQByOpenID(openID);
+                // 根据传递的请求头UID判断
+                if(qqDateBase==null || "".equals(qqDateBase)) { // 数据库不存在绑定操作
+                	qq.setUserEmail(qqUserEmail);
+                	qqService.save(qq);
+                	map.addAttribute("user",JSON.toJSON(userService.findUserByEmail(qqUserEmail)));
+            		map.addAttribute("msg","绑定成功，请稍后");
+            		map.addAttribute("domain","https://liguohao.cn/manager/user/userInfo");
+                }else { //非绑定操作
+                	// 快速登陆操作
+                	// 根据OpenID查询数据库
+                	QQ qqExist = qqService.findQQByOpenID(qq.getOpenID());
+                	if(qqExist!=null) { // 已经绑定
+                		// 获取用户信息
+                		map.addAttribute("user",JSON.toJSON(userService.findUserByEmail(qqUserEmail)));
+                		map.addAttribute("msg","登陆成功，请稍后");
+                		map.addAttribute("domain","https://liguohao.cn/login");
+                	}else { //未绑定
+//                		out.print("<h2>未绑定QQ，无法快速登陆</h2> <br> <a href='https://liguohao.cn'>点击这里返回</a>");
+                		map.addAttribute("msg","未绑定QQ，无法快速登陆");
+                	}
+                }
+               
+               
+            }
+        } catch (QQConnectException e) {
+        	e.printStackTrace();
+        }
+        if(map.getAttribute("user")==null) map.addAttribute("user", "");
+        if(map.getAttribute("domain")==null) map.addAttribute("domain", "");
+        if(map.getAttribute("msg")==null) map.addAttribute("msg", "");
+        return "qqLogin";
     }
 
 

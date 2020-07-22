@@ -78,6 +78,7 @@
                 </el-tab-pane>
             </el-tabs>
             <br>
+            <el-button type="primary" @click="saveQQUser">绑定QQ</el-button>
             <el-button type="primary" @click="saveUser">保存</el-button>
         </el-card>
     </div>
@@ -120,6 +121,30 @@ export default {
             // 保存成功
             this.$message.success(res.meta.msg+' 如果发现用户信息未刷新，请重新登陆下')
             window.sessionStorage.setItem('user',JSON.stringify(res.data))
+        },
+        // 绑定QQ
+        saveQQUser(){
+            var qqUrl ="https://api.liguohao.cn/system/user/qq/login";
+
+            window.open(qqUrl, 'newwindow', 'height=500, width=500, top=200, left=250, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
+            var that = this;
+            // 通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
+            window.addEventListener('message', function (e) {
+                var _that = that;
+                //console.log(e)
+                if(e.data!==null && ''!==e.data){
+                var user =  JSON.stringify(e.data)
+                window.sessionStorage.setItem('token', user.token)
+                window.sessionStorage.setItem('UID',user.uid)
+                // 往session中储存用户信息
+                window.sessionStorage.setItem('user',user)
+                _that.$message.success('登陆成功')
+                _that.$router.push('/manager')
+                }else{
+                _that.$message.error('登陆失败')  
+                }
+                
+            }, false)
         }
        
     }

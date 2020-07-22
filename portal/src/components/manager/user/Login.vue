@@ -75,8 +75,8 @@ export default {
         if (!valid) return
         // 校验通过
         const { data: res } = await this.$http.post('system/user/login', this.loginForm)
-        console.log(this.loginForm)
-        console.log(res)
+        //console.log(this.loginForm)
+        //console.log(res)
         if (res.meta.status !== 200) return this.$message.error('登录失败！')
         this.$message.success('登录成功')
         // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
@@ -92,8 +92,28 @@ export default {
     },
     // 通过QQ登陆
     QQLogin(){
-      var url = 'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101889588&redirect_uri=https%3A%2F%2Fapi.liguohao.cn%2Fsystem%2Fuser%2Fqq%2Fcallback&state=api.liguohao.cn&scope=get_user_info';
-      window.location=url;
+      var qqUrl ="https://api.liguohao.cn/system/user/qq/login";
+
+      window.open(qqUrl, 'newwindow', 'height=500, width=500, top=200, left=250, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
+      var that = this;
+      // 通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
+      window.addEventListener('message', function (e) {
+        var _that = that;
+        console.log(e)
+        if(e.data!==null && ''!==e.data){
+          var user =  JSON.stringify(e.data)
+          window.sessionStorage.setItem('token', user.token)
+          window.sessionStorage.setItem('UID',user.uid)
+          // 往session中储存用户信息
+          window.sessionStorage.setItem('user',user)
+          _that.$message.success('登陆成功')
+          _that.$router.push('/manager')
+        }else{
+          _that.$message.error('登陆失败')  
+        }
+        
+      }, false)
+
     }
   }
 }
