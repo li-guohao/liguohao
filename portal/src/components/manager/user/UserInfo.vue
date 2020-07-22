@@ -14,16 +14,14 @@
 
             <el-tabs value="headPortraitUrl">
                 <el-tab-pane label="用户头像" name="headPortraitUrl">
-                    <!-- 用户头像 -->
-                    <!-- <el-upload
-                        class="avatar-uploader"
-                        action="/file/upload/img"
-                        :show-file-list="true" :drag="true"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload> -->
+                    <!-- 提示信息 -->
+                    <!-- <el-alert
+                        title="温馨提示"
+                        type="warning"
+                        :closable="false"
+                        description="">
+                        如需要更新用户信息，请同时更新用户密码。否则下次登陆密码为空。
+                    </el-alert> -->
                     <br>
                     <el-input v-model="user.headPortraitUrl" placeholder="请输入头像URL，带http请求，如https://resource.tobeshrek.com/images/avator.jpg"></el-input>
                     <img :src="user.headPortraitUrl" alt="暂未上传头像或者头像无效">
@@ -35,7 +33,7 @@
                     <el-tag>你的邮箱</el-tag> <el-input v-model="user.email" placeholder="邮箱"></el-input>
                     <br>
                     <!-- 密码 -->
-                    <el-tag>密码</el-tag> <el-input v-model="user.password" placeholder="密码"></el-input>
+                    <!-- <el-tag>密码</el-tag> <el-input v-model="user.password" placeholder="密码"></el-input> -->
                     <br>
                     <!-- 用户昵称 -->
                     <el-tag>用户昵称</el-tag> <el-input v-model="user.nickname" placeholder="昵称"></el-input>
@@ -78,7 +76,6 @@
                 </el-tab-pane>
             </el-tabs>
             <br>
-            <el-button type="primary" @click="saveQQUser">绑定QQ</el-button>
             <el-button type="primary" @click="saveUser">保存</el-button>
         </el-card>
     </div>
@@ -121,30 +118,6 @@ export default {
             // 保存成功
             this.$message.success(res.meta.msg+' 如果发现用户信息未刷新，请重新登陆下')
             window.sessionStorage.setItem('user',JSON.stringify(res.data))
-        },
-        // 绑定QQ
-        saveQQUser(){
-            var qqUrl ="https://api.liguohao.cn/system/user/qq/login";
-
-            window.open(qqUrl, 'newwindow', 'height=500, width=500, top=200, left=250, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
-            var that = this;
-            // 通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
-            window.addEventListener('message', function (e) {
-                var _that = that;
-                //console.log(e)
-                if(e.data!==null && ''!==e.data){
-                var user =  JSON.stringify(e.data)
-                window.sessionStorage.setItem('token', user.token)
-                window.sessionStorage.setItem('UID',user.uid)
-                // 往session中储存用户信息
-                window.sessionStorage.setItem('user',user)
-                _that.$message.success('登陆成功')
-                _that.$router.push('/manager')
-                }else{
-                _that.$message.error('登陆失败')  
-                }
-                
-            }, false)
         }
        
     }

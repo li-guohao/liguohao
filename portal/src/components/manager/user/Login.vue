@@ -94,26 +94,38 @@ export default {
     QQLogin(){
       var qqUrl ="https://api.liguohao.cn/system/user/qq/login";
 
-      window.open(qqUrl, 'newwindow', 'height=500, width=500, top=200, left=250, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
-      var that = this;
+      window.open(qqUrl, 'newwindow', 'height=500, width=500, top=100, left=250, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
       // 通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
-      window.addEventListener('message', function (e) {
-        var _that = that;
-        console.log(e)
-        if(e.data!==null && ''!==e.data){
-          var user =  JSON.stringify(e.data)
-          window.sessionStorage.setItem('token', user.token)
-          window.sessionStorage.setItem('UID',user.uid)
-          // 往session中储存用户信息
-          window.sessionStorage.setItem('user',user)
-          _that.$message.success('登陆成功')
-          _that.$router.push('/manager')
-        }else{
-          _that.$message.error('登陆失败')  
-        }
-        
-      }, false)
+      
+      window.addEventListener('message',this.QQLoginCallBakc,false);
 
+    },
+    // qq登陆回调
+    QQLoginCallBakc(e){
+      //console.log(e)
+      //console.log(e.data)
+      if(e.data!==null && ''!==e.data){
+        var strArr = e.data.split('&');
+        var UID = strArr[0];
+        var token = strArr[1];
+        window.sessionStorage.setItem('token', token)
+        window.sessionStorage.setItem('UID',UID)
+        // 请求后台查询用户信息
+        this.getUserInfo(UID);
+        this.$message.success('登陆成功,请稍后')
+        setTimeout(()=>{
+          this.$router.push('/manager')
+        },1000)
+      }else{
+        this.$message.error('登陆失败')  
+      }
+    },
+    // 获取用户信息
+    async getUserInfo(uid){
+      const {data:res} = await this.$http.get(`system/user/info/${uid}`)
+      //console.log(res)
+      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取用户信息！返回信息：'+ res.meta.msg)
+      window.sessionStorage.setItem('user',JSON.stringify(res.data))
     }
   }
 }

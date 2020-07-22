@@ -13,7 +13,7 @@
 <p>${msg}</p>
 <script>
     window.onload = function () {
-        window.opener.postMessage("${user}", "${domain}");
+        window.opener.postMessage("${uidAndToken}", "${domain}");
         window.close();
     }
 </script>

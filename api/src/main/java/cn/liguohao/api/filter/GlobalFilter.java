@@ -100,7 +100,7 @@ public class GlobalFilter implements Filter{
             // 根据请求方式 ，只放行GET
             String method = request.getMethod();
             if("GET".equals(method) || "OPTIONS".equals(method)) {
-                isAuth = true;
+            	isAuth = true;
             }else {     // 不是GET请求 除了用户登陆，其它需要验证权限
 
                 // 将请求头中的UID替换成用户在数据库的token字符
@@ -127,7 +127,7 @@ public class GlobalFilter implements Filter{
             chain.doFilter(req,res);
         }else {     //返回结果JSON
             Result result = new Result();
-            result.setMeta(new Meta(401,"用户无权访问，请登陆后再尝试"));
+            result.setMeta(new Meta(401,"No access"));
             res.getWriter().write(JSON.toJSONString(result));
         }
     }

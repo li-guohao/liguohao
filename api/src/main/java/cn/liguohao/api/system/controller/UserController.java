@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.qq.connect.QQConnectException;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
@@ -38,6 +39,7 @@ import cn.liguohao.api.system.entity.QQ;
 import cn.liguohao.api.system.entity.User;
 import cn.liguohao.api.system.service.QQService;
 import cn.liguohao.api.system.service.UserService;
+import cn.liguohao.api.utils.BeanUtil;
 import cn.liguohao.api.utils.UUIDUtils;
 
 /**
@@ -208,7 +210,9 @@ public class UserController {
                 if(qqDateBase==null || "".equals(qqDateBase)) { // 数据库不存在绑定操作
                 	qq.setUserEmail(qqUserEmail);
                 	qqService.save(qq);
-                	map.addAttribute("user",JSON.toJSON(userService.findUserByEmail(qqUserEmail)));
+                	User user = userService.findUserByEmail(qqUserEmail);
+            		String uidAndToken = user.getUid() + "&" + user.getToken();
+                	map.addAttribute("uidAndToken",uidAndToken);  //返回格式： UID&token
             		map.addAttribute("msg","绑定成功，请稍后");
             		map.addAttribute("domain","https://liguohao.cn/manager/user/userInfo");
                 }else { //非绑定操作
@@ -217,11 +221,12 @@ public class UserController {
                 	QQ qqExist = qqService.findQQByOpenID(qq.getOpenID());
                 	if(qqExist!=null) { // 已经绑定
                 		// 获取用户信息
-                		map.addAttribute("user",JSON.toJSON(userService.findUserByEmail(qqUserEmail)));
+                		User user = userService.findUserByEmail(qqUserEmail); 
+                		String uidAndToken = user.getUid() + "&" + user.getToken(); 
+                		map.addAttribute("uidAndToken",uidAndToken);
                 		map.addAttribute("msg","登陆成功，请稍后");
                 		map.addAttribute("domain","https://liguohao.cn/login");
                 	}else { //未绑定
-//                		out.print("<h2>未绑定QQ，无法快速登陆</h2> <br> <a href='https://liguohao.cn'>点击这里返回</a>");
                 		map.addAttribute("msg","未绑定QQ，无法快速登陆");
                 	}
                 }
@@ -283,7 +288,10 @@ public class UserController {
             }else {
                 result.setMeta(new Meta(404,"查询用户失败，此用户不存在"));
             }
-            result.setData(user);
+            User user2 = new User();
+            BeanUtil.copyFieldByIsExist(user, user2);
+            user2.setPassword("");
+            result.setData(user2);
         }catch (Exception e){
             e.printStackTrace();
             result.setMeta(new Meta(500,"服务器异常，用户查询失败。",e.getMessage()));
