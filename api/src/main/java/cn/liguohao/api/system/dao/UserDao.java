@@ -24,8 +24,6 @@ public interface UserDao extends JpaRepository<User,Long>,JpaSpecificationExecut
     // 根据邮箱查询用户
     User findUserByEmail(String email);
 
-    // 根据QQ号查询用户
-    User findUserByQq(Long qq);
 
     // 根据uid查询用户
     User findUserByUid(Long uid);

@@ -5,6 +5,12 @@
 --	WHERE option_category='test' and option_name = 'testName'
 --);
 
+-- 插入默认用户
+INSERT INTO system_user (email,password)  
+SELECT '847486306@qq.com','xiaohao' FROM DUAL WHERE NOT EXISTS(
+	SELECT * FROM system_user 
+);
+
 -- 系统设置表初始化 (如已经存在表信息则不执行)
 ---- 站点公告
 INSERT INTO system_option (option_category,option_name,option_value,option_desc)  

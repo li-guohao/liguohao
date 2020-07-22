@@ -37,7 +37,8 @@ public class ArticleServiceImpl implements ArticleService {
     public void save(Article article) {
         article.setCreateTime(new Date());
         article.setUpdateTime(new Date());
-        if(article.getTop()==null) article.setIsOpen(0); //为空默认不置顶
+        if(article.getIsOpen()==null ) article.setIsOpen(1); //为空默认发布
+        if(article.getTop()==null) article.setTop(0);; //为空默认不置顶
         if(article.getStatus()==null) article.setStatus(1); //默认保存为草稿
 
         // 标签逻辑处理

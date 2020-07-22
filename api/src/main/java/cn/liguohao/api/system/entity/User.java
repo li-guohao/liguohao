@@ -49,14 +49,19 @@ public class User {
     @Column(name = "BUID")
     private Long BUID;      //B站UUID
 
-    @Column(name = "qq")
-    private Long qq;                //QQ号码
+    
+    @Column(name = "qq_img")
+    private String qqImg;			//QQ图片二维码
 
-    @Column(name = "wechat")
-    private String wechat;          //微信号
+    
+    @Column(name = "wechat_img")
+    private String wechatImg;		//微信号图片二维码
 
     @Column(name = "website")
     private String website;         //个人主页站点
+    
+    @Column(name = "github_url")
+    private String githubUrl;         //github主页
 
     @Column(name = "description")
     private String description;     //个人简介
@@ -125,21 +130,6 @@ public class User {
     }
 
 
-    public Long getQq() {
-        return qq;
-    }
-
-    public void setQq(Long qq) {
-        this.qq = qq;
-    }
-
-    public String getWechat() {
-        return wechat;
-    }
-
-    public void setWechat(String wechat) {
-        this.wechat = wechat;
-    }
 
     public String getWebsite() {
         return website;
@@ -188,4 +178,31 @@ public class User {
     public void setBUID(Long BUID) {
         this.BUID = BUID;
     }
+
+	public String getQqImg() {
+		return qqImg;
+	}
+
+	public void setQqImg(String qqImg) {
+		this.qqImg = qqImg;
+	}
+
+	public String getWechatImg() {
+		return wechatImg;
+	}
+
+	public void setWechatImg(String wechatImg) {
+		this.wechatImg = wechatImg;
+	}
+
+	public String getGithubUrl() {
+		return githubUrl;
+	}
+
+	public void setGithubUrl(String githubUrl) {
+		this.githubUrl = githubUrl;
+	}
+	
+	
+    
 }

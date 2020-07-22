@@ -40,7 +40,7 @@ public class CommentController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/blog/comment";
+            requestUrl += "blog/comment";
         }
         map.put("POST-添加评论",requestUrl+"/save");
         map.put("GET-查询所有评论",requestUrl+"/list/{currentPage}/{pageSize}");

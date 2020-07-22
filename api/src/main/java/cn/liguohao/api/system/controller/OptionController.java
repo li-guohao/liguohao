@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,12 @@ public class OptionController {
 	private OptionService optionService;
 	
 	/**
+     * 环境，是生产环境还是开发环境
+     */
+    @Value("${MODE}")
+    private String MODE;
+	
+	/**
 	 * @Title: index
 	 * @Description: 接口导航
 	 * @param request
@@ -47,6 +54,9 @@ public class OptionController {
         // 新建对象
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
+        if("production".equals(MODE)){ //线上(生产)环境
+            requestUrl += "system/option";
+        }
         map.put("GET-根据分类查询所有系统设置",requestUrl+"/list/category/{optionCategory}");
         map.put("GET-根据设置的分类和名称查询系统设置",requestUrl+"/one/{optionCategory}/{optionName}");
         map.put("GET-分页查询所有系统设置",requestUrl+"/list/{currentPage}/{pageSize}");

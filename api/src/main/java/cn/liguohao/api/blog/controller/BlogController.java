@@ -32,7 +32,7 @@ public class BlogController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/blog";
+            requestUrl += "blog";
         }
         map.put("博客模块-->文章",requestUrl+"/article");
         map.put("博客模块-->评论",requestUrl+"/comment");

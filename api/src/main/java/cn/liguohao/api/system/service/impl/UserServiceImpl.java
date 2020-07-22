@@ -28,8 +28,7 @@ public class UserServiceImpl implements UserService {
     public User login(User user) {
         // 判断是否依据注册
         User userEmailExist = userDao.findUserByEmail(user.getEmail());
-        User userQQExist = userDao.findUserByQq(user.getQq());
-        if(userEmailExist==null && userQQExist==null){ //未注册
+        if(userEmailExist==null ){ //未注册
             user.setUsername("无名者");
             user.setRegisterTime(new Date());
             userDao.save(user);
@@ -76,4 +75,9 @@ public class UserServiceImpl implements UserService {
     public User findUserByUid(Long uid) {
         return userDao.findUserByUid(uid);
     }
+
+	@Override
+	public User findUserByEmail(String email) {
+		return userDao.findUserByEmail(email);
+	}
 }

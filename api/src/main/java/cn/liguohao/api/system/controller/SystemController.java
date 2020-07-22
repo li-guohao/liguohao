@@ -39,7 +39,7 @@ public class SystemController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/system";
+            requestUrl += "system";
         }
         map.put("系统模块-->用户",requestUrl+"/user");
         map.put("系统模块-->设置",requestUrl+"/option");

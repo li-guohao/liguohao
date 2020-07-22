@@ -50,7 +50,7 @@ public class FileController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/file";
+            requestUrl += "file";
         }
         map.put("POST-文件上传",requestUrl+"/upload");
         map.put("GET-分页查询所有文件",requestUrl+"/list/{type}/{currentPage}/{pageSize}");

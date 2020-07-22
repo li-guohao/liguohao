@@ -46,7 +46,7 @@ public class ArticleController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/blog/article";
+            requestUrl += "blog/article";
         }
         map.put("POST-添加",requestUrl+"/save");
         map.put("GET-分页查询",requestUrl+"/list/{currentPage}/{pageSize}");

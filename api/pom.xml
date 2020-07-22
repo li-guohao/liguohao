@@ -98,13 +98,6 @@
 			<version>3.1.0</version>
 		</dependency>
 
-		<!-- 校验文件格式时用到
-			百科：https://baike.baidu.com/item/Aspectj/4830848
-		-->
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-        </dependency>
 
         <!--七牛云JavaSDK-->
         <dependency>
@@ -112,6 +105,15 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>[7.2.0, 7.2.99]</version>
         </dependency>
+        
+        <!-- Http请求 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		</dependency>
+			
+				
 
     </dependencies>
 

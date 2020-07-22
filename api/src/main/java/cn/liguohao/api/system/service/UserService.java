@@ -19,5 +19,8 @@ public interface UserService {
     boolean save(User user);
     // 根据uid获取用户信息
     User findUserByUid(Long uid);
+    
+    // 根据邮箱获取用户信息
+    User findUserByEmail(String email);
 
 }

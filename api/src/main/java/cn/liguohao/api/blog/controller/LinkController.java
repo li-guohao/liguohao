@@ -40,7 +40,7 @@ public class LinkController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/blog/link";
+            requestUrl += "blog/link";
         }
         map.put("GET-查询所有链接",requestUrl+"/list");
         map.put("POST-添加链接",requestUrl+"/save");

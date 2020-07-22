@@ -40,7 +40,7 @@ public class TagController {
         HashMap<String, Object> map = new HashMap<>();
         // 构建数据
         if("production".equals(MODE)){ //线上(生产)环境
-            requestUrl += "/blog/tag";
+            requestUrl += "blog/tag";
         }
         map.put("POST-添加标签",requestUrl+"/save");
         map.put("GET-分页查询所有标签",requestUrl+"/list/{currentPage}/{pageSize}");
