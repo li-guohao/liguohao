@@ -55,8 +55,6 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private HttpClent httpClent;
-    @Autowired
     private QQService qqService;
     
     /**
@@ -86,7 +84,7 @@ public class UserController {
         if("production".equals(MODE)){ //线上(生产)环境
             requestUrl += "system/user";
         }
-        map.put("POST-用户登陆",requestUrl+"/login");
+        //map.put("POST-用户登陆",requestUrl+"/login");
         map.put("GET-分页查询所有用户",requestUrl+"/list/{currentPage}/{pageSize}");
         map.put("POST-用户注册",requestUrl+"/save");
         map.put("Get-根据ID获取用户",requestUrl+"/info/{uid}");
@@ -96,31 +94,31 @@ public class UserController {
         return map;
     }
 
-    @SuppressWarnings("null")
-	@PostMapping("/login")
-    @ResponseBody
-    private Result login(@RequestBody User user, HttpServletRequest request){
-        Result result = new Result();
-        try {
-            User userRes = userService.login(user);
-            if(userRes!=null){ //登陆成功，每次登陆更新该用户数据库的token
-                userRes.setToken(UUIDUtils.getUUID64());
-                //将该用户的token更新保存到数据库
-                userService.save(userRes);
-                result.setMeta(new Meta(200,"User Login Success"));
-                result.setData(userRes);
-            }else{          //登陆失败
-                result.setMeta(new Meta(401,"User Login Faild，No Access Permission"));
-                userRes.setPassword(null);
-                result.setData(userRes);
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-            result.setMeta(new Meta(500,"Server Logic Exception ，User Login Faild",e.getMessage()));
-        }
-        return result;
-    }
+//    @SuppressWarnings("null")
+//	@PostMapping("/login")
+//    @ResponseBody
+//    private Result login(@RequestBody User user, HttpServletRequest request){
+//        Result result = new Result();
+//        try {
+//            User userRes = userService.login(user);
+//            if(userRes!=null){ //登陆成功，每次登陆更新该用户数据库的token
+//                userRes.setToken(UUIDUtils.getUUID64());
+//                //将该用户的token更新保存到数据库
+//                userService.save(userRes);
+//                result.setMeta(new Meta(200,"User Login Success"));
+//                result.setData(userRes);
+//            }else{          //登陆失败
+//                result.setMeta(new Meta(401,"User Login Faild，No Access Permission"));
+//                userRes.setPassword(null);
+//                result.setData(userRes);
+//            }
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            result.setMeta(new Meta(500,"Server Logic Exception ，User Login Faild",e.getMessage()));
+//        }
+//        return result;
+//    }
     
     @RequestMapping(value = "/qq/login")
     public void qqLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {

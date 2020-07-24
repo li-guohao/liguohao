@@ -3,7 +3,7 @@ import VueRouter from 'vue-router' //路由组件
 // 后台管理
 import Manager from '@/components/manager/Index'    // @ 代表 src路径下   Index.vue 可省略.vue后缀
 import Welcome from '@/components/manager/Welcome'
-import Login from '@/components/manager/user/Login' // Login.vue组件 等价于 from '../components/user/Login.vue' 或 src 下 components/manager/user/Login.vue
+//import Login from '@/components/manager/user/Login' // Login.vue组件 等价于 from '../components/user/Login.vue' 或 src 下 components/manager/user/Login.vue
 import UserInfo from '@/components/manager/user/UserInfo'
 import ArticleEdit from '@/components/manager/article/Edit'
 import ArticleList from '@/components/manager/article/List'
@@ -86,10 +86,6 @@ const routes = [
       {path:'welcome', component:Welcome}
     ]
     
-  },
-  {
-    path: '/login',
-    component: Login
   }
 ]
 

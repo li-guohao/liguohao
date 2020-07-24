@@ -13,10 +13,11 @@
       <!-- logo -->
       <a href="/" class="logo">{{logo}}</a>
       <!-- 主链接 -->
-      <a :key="'headerUrl'+index" v-for='(item,index) in headerUrls' :href="item.url" ><i :class="item.iconClass"></i>{{item.name}}</a>
+      <a :key="'headerUrl'+index"  v-for='(item,index) in headerUrls' 
+          :href="item.url"  @click=" headUrlClick(item)"><i :class="item.iconClass"></i>{{item.name}}</a>
       <!-- 后台自定义导航链接 -->
       <a :key="'link'+link.lid" v-for='link in linkList' :href="link.targetUrl" >
-        <img :src="link.img" alt="" class="headerLinkIcon">
+        <img  :src="link.img" alt="" class="headerLinkIcon">
         {{link.name}}
       </a>
     </div>
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+import globalVar from '@/Global'
 export default {
   metaInfo(){
     return {
@@ -72,6 +74,7 @@ export default {
   },
   data(){
     return {
+      apiBaseUrl:globalVar.apiBaseUrl, //导入的全局变量
       title:'',
       keyWords:'',
       content:'',
@@ -85,7 +88,7 @@ export default {
         {url:'/', iconClass:'fa fa-home', name:'首页'},
         {url:'/article', iconClass:'fa fa-server', name:'文章'},
         {url:'/tags', iconClass:'fa fa-tags', name:'标签墙'},
-        {url:'/login', iconClass:'fa fa-cog', name:'登陆'}
+        {url:'#', iconClass:'fa fa-qq', name:'登陆'}
       ],
       // 尾部HTML代码
       footerInfo: ``,
@@ -141,6 +144,47 @@ export default {
       if(res.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res.meta.msg)
       //else this.$message.success(res.meta.msg)
       this.linkList = res.data
+    },
+    // 用户登陆
+    headUrlClick(e){
+      if(e.iconClass === 'fa fa-qq' && e.name === '登陆'){ this.QQLogin()}
+    },
+    // 通过QQ登陆
+    QQLogin(){
+      var qqUrl =this.apiBaseUrl+"/system/user/qq/login";
+
+      window.open(qqUrl, 'newwindow', 'height=500, width=500, top=100, left=250, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
+      // 通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
+      
+      window.addEventListener('message',this.QQLoginCallBakc,false);
+
+    },
+    // qq登陆回调
+    QQLoginCallBakc(e){
+      //console.log(e)
+      //console.log(e.data)
+      if(e.data!==null && ''!==e.data){
+        var strArr = e.data.split('&');
+        var UID = strArr[0];
+        var token = strArr[1];
+        window.sessionStorage.setItem('token', token)
+        window.sessionStorage.setItem('UID',UID)
+        // 请求后台查询用户信息
+        this.getUserInfo(UID);
+        this.$message.success('登陆成功,请稍后')
+        setTimeout(()=>{
+          this.$router.push('/manager')
+        },1000)
+      }else{
+        this.$message.error('登陆失败')  
+      }
+    },
+    // 获取用户信息
+    async getUserInfo(uid){
+      const {data:res} = await this.$http.get(`system/user/info/${uid}`)
+      //console.log(res)
+      if(res.meta.status !== 200) return this.$message.error('后台接口异常，获取用户信息！返回信息：'+ res.meta.msg)
+      window.sessionStorage.setItem('user',JSON.stringify(res.data))
     }
   }
 }

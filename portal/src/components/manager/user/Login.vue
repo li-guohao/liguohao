@@ -24,7 +24,6 @@
                   <!-- <el-button type="info" @click="resetLoginForm">重置</el-button> -->
                 </el-form-item>
               </el-form>
-             
           </div>
         </div>
       
