@@ -3,6 +3,7 @@
 - 介绍文档(优先更新)：[https://liguohao.cn/article/info/8](https://liguohao.cn/article/info/8)
 - portal: 前台门户
 - api: 后台接口
+- tool: 工具箱站点
 
 # 设计
 
@@ -43,7 +44,5 @@
 
 # 进度
 
-## 2020-07-20
-- 总的来讲 V1版本基本完成
-- 文件模块实现了七牛云存储 ，只需要后台配置对应的信息就OK了。
-- 前台显示优化了一些细节，去掉了移动端适配。
+更新进度请查看：[介绍文档(优先更新)](https://liguohao.cn/article/info/8)
+
