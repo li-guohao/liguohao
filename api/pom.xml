@@ -136,6 +136,27 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<!-- docker 远程仓库 插件 -->
+			<plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <!-- docker私服的地址 -->
+                    <dockerHost>http://liguohao.cn:2375</dockerHost>
+                    <imageName>docker.io/liguohaocn/api:latest</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            
 		</plugins>
 		<finalName>api.liguohao.cn</finalName>
 	</build>
