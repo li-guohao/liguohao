@@ -5,7 +5,7 @@
   <parent>
   	<groupId>org.springframework.boot</groupId>
 	<artifactId>spring-boot-starter-parent</artifactId>
-	<version>2.2.5.RELEASE</version>
+	<version>2.2.6.RELEASE</version>
 	<relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -15,7 +15,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>工具箱站点</name>
-  <description>一些小工具</description>
+  <description>一些小工具, web端和酷Q机器人</description>
   
   <!-- 属性列表  -->
   <properties>
@@ -84,6 +84,18 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 	
+		<!-- Spring-CQ CoolQ机器人 -->
+		<dependency>
+	        <groupId>net.lz1998</groupId>
+	        <artifactId>spring-cq</artifactId>
+	        <version>4.14.1.1</version>
+	    </dependency>
+		<dependency>
+	       <groupId>org.projectlombok</groupId>
+	       <artifactId>lombok</artifactId>
+	       <optional>true</optional>
+	   </dependency>
+		
   </dependencies>
       	
   
@@ -120,5 +132,35 @@
 		<finalName>tool.liguohao.cn</finalName>
 	</build>
   
+  
+  	<repositories>
+	    <repository>
+	        <id>aliyun</id>
+	        <name>aliyun</name>
+	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+	        <layout>default</layout>
+	        <releases>
+	            <enabled>true</enabled>
+	            <updatePolicy>never</updatePolicy>
+	        </releases>
+	        <snapshots>
+	            <enabled>true</enabled>
+	            <updatePolicy>never</updatePolicy>
+	        </snapshots>
+	    </repository>
+	</repositories>
+	<pluginRepositories>
+	    <pluginRepository>
+	        <id>aliyun</id>
+	        <name>aliyun</name>
+	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </pluginRepository>
+	</pluginRepositories>
   
 </project>
