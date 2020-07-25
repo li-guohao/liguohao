@@ -122,7 +122,7 @@ export default {
       
       // linkIcon
       const {data: res4} = await this.$http.get(`system/option/one/siteInfo/linkIcon`);
-      //console.log(res2)
+      //console.log(res4)
       if( res4.meta.status !== 200) return this.$message.error('后台接口异常，返回信息：'+res4.meta.msg)
       // else this.$message.success(res4.meta.msg)
       this.linkIcon = res4.data.optionValue

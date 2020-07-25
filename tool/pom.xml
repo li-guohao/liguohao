@@ -115,7 +115,7 @@
                 <version>1.0.0</version>
                 <configuration>
                     <!-- docker私服的地址 -->
-                    <dockerHost>http://liguohao.cn:2375</dockerHost>
+                    <dockerHost>http://liguohao.cn:8375</dockerHost>
                     <imageName>docker.io/liguohaocn/tool:latest</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
