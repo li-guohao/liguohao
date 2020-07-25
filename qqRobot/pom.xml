@@ -1,0 +1,8 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cn.liguohao</groupId>
+  <artifactId>qqRobot</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>小豪QQ机器人</name>
+  <description>小豪QQ机器人，基于coolq, coolq-http, spring-cq开发</description>
+</project>

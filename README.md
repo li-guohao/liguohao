@@ -4,6 +4,7 @@
 - portal: 前台门户
 - api: 后台接口
 - tool: 工具箱站点
+- qqRobot：QQ机器人
 
 # 设计
 
