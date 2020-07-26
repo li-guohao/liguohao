@@ -1,7 +1,6 @@
 package cn.liguohao.api.system.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.qq.connect.QQConnectException;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
@@ -34,13 +31,11 @@ import com.qq.connect.oauth.Oauth;
 import cn.liguohao.api.response.Meta;
 import cn.liguohao.api.response.PagingData;
 import cn.liguohao.api.response.Result;
-import cn.liguohao.api.system.client.HttpClent;
 import cn.liguohao.api.system.entity.QQ;
 import cn.liguohao.api.system.entity.User;
 import cn.liguohao.api.system.service.QQService;
 import cn.liguohao.api.system.service.UserService;
 import cn.liguohao.api.utils.BeanUtil;
-import cn.liguohao.api.utils.UUIDUtils;
 
 /**
  * @ClassName: UserController
@@ -205,7 +200,7 @@ public class UserController {
      
                 QQ qqDateBase = qqService.findQQByOpenID(openID);
                 // 根据传递的请求头UID判断
-                if(qqDateBase==null || "".equals(qqDateBase)) { // 数据库不存在
+                if(qqDateBase==null ) { // 数据库不存在
                 	// 判断此邮箱是否已经绑定了QQ用户
                 	QQ qqExist = qqService.findQQByUserEmail(qqUserEmail);
                 	if(qqExist!=null) { //已经绑定了QQ用户

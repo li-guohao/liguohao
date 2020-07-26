@@ -32,7 +32,6 @@ public class BVPlugin  extends CQPlugin  {
 	 * @param event 件对象，用于获取消息内容、群号、发送者QQ等
 	 * @return 是否继续调用下一个插件，MESSAGE_IGNORE表示继续，MESSAGE_BLOCK表示不继续
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
 		// 获取 消息内容 群号 发送者QQ

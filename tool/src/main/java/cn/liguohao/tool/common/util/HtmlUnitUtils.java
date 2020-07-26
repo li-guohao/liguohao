@@ -44,7 +44,7 @@ public class HtmlUnitUtils {
         }
         webClient.waitForBackgroundJavaScript(30000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
         String pageXml = page.asXml();//直接将加载完成的页面转换成xml格式的字符串
-        //TODO 下面的代码就是对字符串的操作了,常规的爬虫操作,用到了比较好用的Jsoup库
+        // 下面的代码就是对字符串的操作了,常规的爬虫操作,用到了比较好用的Jsoup库
         return Jsoup.parse(pageXml);
 	}
 	/**

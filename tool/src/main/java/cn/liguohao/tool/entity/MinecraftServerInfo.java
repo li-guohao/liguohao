@@ -122,6 +122,7 @@ public  class MinecraftServerInfo {
 		return this.maxPlayers;
 	}
 
+	@SuppressWarnings("resource")
 	public boolean fetchData() {
 		try {
 			Socket socket = new Socket();
@@ -204,6 +205,8 @@ public  class MinecraftServerInfo {
 			return false;
 		} catch (IOException exception) {
 			return false;
+		} finally{
+			
 		}
 
 		return true;

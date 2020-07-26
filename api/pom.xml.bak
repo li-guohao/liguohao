@@ -87,19 +87,16 @@
 		</dependency>
 
 		<!-- 阿里云 Java SDK-->
-		<!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
 		<dependency>
-		    <groupId>com.aliyun</groupId>
-		    <artifactId>aliyun-java-sdk-core</artifactId>
-		    <version>4.5.0</version>
+			<groupId>com.aliyun.core</groupId>
+			<artifactId>aliyun-java-sdk-core-3.0.0</artifactId>
+			<version>3.0.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-dm -->
 		<dependency>
-		    <groupId>com.aliyun</groupId>
-		    <artifactId>aliyun-java-sdk-dm</artifactId>
-		    <version>3.3.1</version>
+			<groupId>com.aliyun.dm</groupId>
+			<artifactId>aliyun-java-sdk-dm-3.1.0</artifactId>
+			<version>3.1.0</version>
 		</dependency>
-
 
 
         <!--七牛云JavaSDK-->
@@ -164,35 +161,4 @@
 		<finalName>api.liguohao.cn</finalName>
 	</build>
   
-	<repositories>
-	    <repository>
-	        <id>aliyun</id>
-	        <name>aliyun</name>
-	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-	        <layout>default</layout>
-	        <releases>
-	            <enabled>true</enabled>
-	            <updatePolicy>never</updatePolicy>
-	        </releases>
-	        <snapshots>
-	            <enabled>true</enabled>
-	            <updatePolicy>never</updatePolicy>
-	        </snapshots>
-	    </repository>
-	</repositories>
-	<pluginRepositories>
-	    <pluginRepository>
-	        <id>aliyun</id>
-	        <name>aliyun</name>
-	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-	        <releases>
-	            <enabled>true</enabled>
-	        </releases>
-	        <snapshots>
-	            <enabled>false</enabled>
-	        </snapshots>
-	    </pluginRepository>
-	</pluginRepositories>
-
-
 </project>

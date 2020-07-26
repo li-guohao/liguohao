@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @ClassName: QQ用户信息，绑定用户表的邮箱字段(邮箱唯一)
- * @Description: TODO
+ * @ClassName: QQ
+ * @Description: QQ用户信息，绑定用户表的邮箱字段(邮箱唯一)
  * @author: li-guohao
  * @date: 2020-7-21 22:19:32
  */
