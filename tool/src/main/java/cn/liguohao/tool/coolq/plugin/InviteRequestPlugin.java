@@ -2,6 +2,8 @@ package cn.liguohao.tool.coolq.plugin;
 
 import org.springframework.stereotype.Component;
 
+import net.lz1998.cq.CQGlobal;
+import net.lz1998.cq.event.notice.CQFriendAddNoticeEvent;
 import net.lz1998.cq.event.request.CQFriendRequestEvent;
 import net.lz1998.cq.event.request.CQGroupRequestEvent;
 import net.lz1998.cq.robot.CQPlugin;
@@ -27,15 +29,17 @@ public class InviteRequestPlugin  extends CQPlugin {
         }else { //不通过
         	cq.setGroupAddRequest(event.getFlag(), event.getSubType(), false, "抱歉，目前只支持QQ847486306邀请机器人进群聊");
         }
-		return super.onGroupRequest(cq, event);
+		return MESSAGE_IGNORE;
 	}
 
 	@Override
 	public int onFriendRequest(CoolQ cq, CQFriendRequestEvent event) {
 		// 同意好友请求
 		cq.setFriendAddRequest(event.getFlag(), true, "加小豪机器人好友的人");
-		return super.onFriendRequest(cq, event);
+		cq.sendPrivateMsg(event.getUserId(), "您好，这里是小豪机器人！", false);
+		return MESSAGE_IGNORE;
 	}
+	
 	
 	
 	

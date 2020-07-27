@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import net.lz1998.cq.event.message.CQGroupMessageEvent;
 import net.lz1998.cq.event.message.CQPrivateMessageEvent;
+import net.lz1998.cq.event.notice.CQGroupIncreaseNoticeEvent;
 import net.lz1998.cq.robot.CQPlugin;
 import net.lz1998.cq.robot.CoolQ;
 import net.lz1998.cq.utils.CQCode;
@@ -68,6 +69,14 @@ public class HelloPlugin  extends CQPlugin {
         // 继续执行下一个插件
         return MESSAGE_IGNORE;
 	}
+
+	@Override
+	public int onGroupIncreaseNotice(CoolQ cq, CQGroupIncreaseNoticeEvent event) {
+		 cq.sendGroupMsg(event.getGroupId(), CQCode.at(event.getUserId())+" 欢迎您的加入！这里是小豪机器人。", false);
+		return MESSAGE_IGNORE;
+	}
+	
+	
 	
 	
 }

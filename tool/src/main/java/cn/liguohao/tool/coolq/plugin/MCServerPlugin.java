@@ -2,7 +2,7 @@ package cn.liguohao.tool.coolq.plugin;
 
 import org.springframework.stereotype.Component;
 
-import cn.liguohao.tool.entity.MinecraftServerInfo;
+import cn.liguohao.tool.entity.minecraft.ServerInfo;
 import net.lz1998.cq.event.message.CQGroupMessageEvent;
 import net.lz1998.cq.robot.CQPlugin;
 import net.lz1998.cq.robot.CoolQ;
@@ -37,14 +37,14 @@ public class MCServerPlugin  extends CQPlugin {
         	String message = msg.substring(prefix.length());
         	if(message.startsWith("状态")) {
         		message = message.substring("状态".length());
-        		MinecraftServerInfo mcServer = null;
+        		ServerInfo mcServer = null;
         		if(!"".equals(message)) {
         			String[] strArr = message.split(":");
         			Integer port = 25565;
         			if(strArr.length>1) {port = Integer.valueOf(strArr[1]);}
-        			mcServer = new MinecraftServerInfo(strArr[0], port);
+        			mcServer = new ServerInfo(strArr[0], port);
         		}else {
-        			mcServer = new MinecraftServerInfo("mc.liguohao.cn", 10776);
+        			mcServer = new ServerInfo("mc.liguohao.cn", 10776);
         		}
         		mcServer.fetchData(); //查询数据
         		String result = CQCode.at(userId) + "\n"

@@ -47,22 +47,22 @@
         <artifactId>spring-boot-starter-freemarker</artifactId>
     </dependency>
 	<!-- HttpClient -->
-    <!-- <dependency>
+    <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>4.5.3</version>
-    </dependency> -->
+    </dependency>
     <!-- htmlunit依赖  依赖于HttpClient-->
-    <dependency>
+    <!-- <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
         <artifactId>htmlunit</artifactId>
-    </dependency>
+    </dependency> -->
     <!--Jsoup-->
-    <dependency>
+    <!-- <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
         <version>1.10.3</version>
-    </dependency>
+    </dependency> -->
     
 	
 	<!-- SpirngBoot 测试依赖-->

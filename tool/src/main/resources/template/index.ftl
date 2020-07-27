@@ -42,6 +42,13 @@
 		.buttonSelected {
 			color:blue;
 		}
+		.div_foot {
+		    position: absolute;
+		    height: 50px;
+		    text-align: center;
+		    line-height: 50px;
+		    width: 100%;
+		}
 	</style>
 	<script type="text/javascript">
 		function windowsLocationHref(href){
@@ -52,12 +59,12 @@
 <body>
 <div align="center" class="main">
 	<h2>导航</h2>
-	<a href="https://liguohao.cn" >小豪的工具箱站点</a>
+	<a href="https://liguohao.cn" >小豪的主栈</a>
 	<h2>公告</h2>
-	<p>工具箱站点目前就只有<strong>B提取站视频封面</strong>功能，其它功能敬请期待</p>
+	<p>工具箱站点目前就只有<strong>BV号或者AV号提取站视频封面</strong>功能，其它功能敬请期待</p>
 	<h2>根据BV号查询</h2>	
 	<form action="/bilibili/getCover"  method="get">
-		<input name="bvnumber" class="BVNumInput" title="BV号" placeholder="请输入BV号"/>
+		<input name="number" class="BVNumInput" title="BV号或者AV号" placeholder="请输入BV号或者AV号"/>
 		<button style="border-radius: 5px;height:20px;" type="submit">发送</button>
 	</form>
 	<hr>
@@ -81,10 +88,10 @@
 	</div>
 	<!--图片区域-->
 	<div class="hotCoverDiv">
-		<#list BiliVideoList as bv>
+		<#list VideoList as bv>
 			<div class="unit" align="center">
-				<span><a target="_blank" href="https://www.bilibili.com/video/${bv.bvid}">${bv.bvid}</a> -- 已查询${bv.searchCount}次</span>
-				<a target="_blank" href="${bv.coverImgUrl}"><img src="${bv.coverImgUrl}" alert="图片无法访问，链接是：${bv.coverImgUrl}"/></a>
+				<span><a target="_blank" href="/bilibili/getCover?number=${bv.bvid}">${bv.title}</a> -- 已查询${bv.searchCount}次</span>
+				<a target="_blank" href="${bv.pic}"><img src="${bv.pic}" alert="图片无法访问，链接是：${bv.pic}"/></a>
 			</div>
 		</#list>
 	</div>
@@ -94,7 +101,12 @@
 			<button onclick="windowsLocationHref('/findAllByPaging?curentPage=${curentPage-1}&pageSize=${pageSize}')" type="button">上一页</button>
 		</#if>
 		<#list 1..((count / pageSize  )+1) as index>
-			<button onclick="windowsLocationHref('/findAllByPaging?curentPage=${index}&pageSize=${pageSize}')" type="button">第${index}页</button>
+			<#if curentPage==index>
+				<button class="buttonSelected" onclick="windowsLocationHref('/findAllByPaging?curentPage=${index}&pageSize=${pageSize}')" type="button">第${index}页</button>
+			</#if>
+			<#if curentPage!=index>
+				<button onclick="windowsLocationHref('/findAllByPaging?curentPage=${index}&pageSize=${pageSize}')" type="button">第${index}页</button>
+			</#if>
 		</#list>
 		<#if curentPage lt ((count / pageSize))>
 			<button onclick="windowsLocationHref('/findAllByPaging?curentPage=${curentPage+1}&pageSize=${pageSize}')" type="button">下一页</button>
@@ -103,5 +115,11 @@
 	
 </div>
 
+<div class="div_foot">
+        <a href="https://liguohao.cn">小站</a>  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="https://liguohao.cn">@liguohao.cn</a>
+        Made By
+        <a href="https://liguohao.cn"> li-guohao</a>
+        <a href="http://beian.miit.gov.cn/" target="_blank">备案号：赣ICP备19013362号-3</a>
+</div>
 </body>
 </html>

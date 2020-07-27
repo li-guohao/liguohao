@@ -33,16 +33,36 @@
 		</thead>
 		<tbody>
 			<tr>
+				<td>AV号</td>
+				<td><a href="https://www.bilibili.com/video/av${BV.aid?c}" target="_blank">av${BV.aid?c}</a></td>
+			</tr>
+			<tr>
+				<td>BV号</td>
+				<td><a href="https://www.bilibili.com/video/${BV.bvid}" target="_blank">${BV.bvid}</a></td>
+			</tr>
+			<tr>
 				<td>标题</td>
-				<td>${BV.title}</td>
+				<td><a href="https://www.bilibili.com/video/av${BV.aid?c}" target="_blank">${BV.title}</a></td>
 			</tr>
 			<tr>
-				<td>BVID</td>
-				<td>${BV.bvid}</td>
+				<td>封面图片URL</td>
+				<td><a href="${BV.pic}" target="_blank">${BV.pic}</a></td>
 			</tr>
 			<tr>
-				<td>URL</td>
-				<td><a href="${BV.coverImgUrl}" target="_blank">${BV.coverImgUrl}</a></td>
+				<td>上传时间</td>
+				<td>${BV.pubdate?string('yyyy年MM月dd日')}</td>
+			</tr>
+			<tr>
+				<td>视频总计持续时长</td>
+				<td>${BV.duration}秒</td>
+			</tr>
+			<tr>
+				<td>查询次数</td>
+				<td>${BV.searchCount}次</td>
+			</tr>
+			<tr >
+				<td>视频简介</td>
+				<td >${BV.desc?replace("\n","<br>")}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -54,7 +74,7 @@
 	</form>
 	-->
 	<h2>视频封面</h2>	
-	<a href="${BV.coverImgUrl}"  target="_blank"><img src="${BV.coverImgUrl}" alt="视频封面" /></a>
+	<a href="${BV.pic}"  target="_blank"><img width="100%" src="${BV.pic}" alt="视频封面" /></a>
 	
 	<br>
 </div>

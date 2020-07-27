@@ -9,8 +9,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.liguohao.tool.entity.BiliVideo;
-import cn.liguohao.tool.service.BiliBiliVideoService;
+import cn.liguohao.tool.entity.bilibili.Video;
+import cn.liguohao.tool.service.BVideoService;
 
 /**
 * @ClassName: BiliBiliController.java
@@ -27,14 +27,14 @@ public class BiliBiliController {
     @Value("${BiliBliSearchVideoApi}")
     private String BiliBliSearchVideoApi;
     @Autowired
-    private BiliBiliVideoService bvService;
+    private BVideoService bvService;
     
     
     @GetMapping("/getCover")
-    public String getCover(ModelMap model, String bvnumber){
-    	if(bvnumber==null || "".equals(bvnumber)) bvnumber="BV1vz4y1R7GR";
+    public String getCover(ModelMap model, String number){
+    	if(number==null || "".equals(number)) number="BV1o54y1U7Ra";
 //    	// 新建储存对象
-//    	BiliVideo bv = new BiliVideo();
+//    	Video bv = new Video();
 //    	bv.setBvid(bvnumber);
 //    	
 //    	// 获取页面信息
@@ -53,7 +53,7 @@ public class BiliBiliController {
 //    	bv.setSerachDate(new Date());
 //    	// 保存到数据库
 //    	bvService.save(bv);
-    	BiliVideo bv = bvService.getBV(bvnumber);
+    	Video bv = bvService.getVideoByNumber(number);
     	// 返回结果到页面
     	model.addAttribute("BV", bv);
     	return "bilibili/searchResult";

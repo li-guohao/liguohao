@@ -23,27 +23,87 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HttpUtils {
-	private PoolingHttpClientConnectionManager cm;
+	private static PoolingHttpClientConnectionManager cm;
 
-    public HttpUtils() {
-        this.cm = new PoolingHttpClientConnectionManager();
+    static {
+        cm = new PoolingHttpClientConnectionManager();
 
         //设置最大连接数
-        this.cm.setMaxTotal(100);
+        cm.setMaxTotal(100);
 
         //设置每个主机的最大连接数
-        this.cm.setDefaultMaxPerRoute(10);
+        cm.setDefaultMaxPerRoute(10);
     }
+    
+    /**
+     * @Title: doGet
+     * @Description: get请求
+     * @param url 请求地址
+     * @return 结果字符串
+     * @return String 返回类型
+     * @throws
+      */
+     public static String doGet(String url){
+         //获取HttpClient对象
+         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(cm).build();
 
-    public String doGet(String url,String refer){
+         //创建httpGet请求对象，设置url地址
+         HttpGet httpGet = new HttpGet(url);
+
+         //设置请求信息
+         httpGet.setConfig(getConfig());
+
+         CloseableHttpResponse response = null;
+
+
+
+         try {
+             //使用HttpClient发起请求，获取响应
+             response = httpClient.execute(httpGet);
+
+             //解析响应，返回结果
+             if (response.getStatusLine().getStatusCode() == 200) {
+                 //判断响应体Entity是否不为空，如果不为空就可以使用EntityUtils
+                 if (response.getEntity() != null) {
+                     String content = EntityUtils.toString(response.getEntity(), "utf8");
+                     return content;
+                 }
+             }
+
+         } catch (IOException e) {
+             e.printStackTrace();
+         } finally {
+             //关闭response
+             if (response != null) {
+                 try {
+                     response.close();
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+             }
+         }
+         //返回空串
+         return "";
+     }
+    
+    /**
+    * @Title: doGet
+    * @Description: get请求
+    * @param url 请求地址
+    * @param refer 
+    * @return 结果字符串
+    * @return String 返回类型
+    * @throws
+     */
+    public static String doGet(String url,String refer){
         //获取HttpClient对象
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(this.cm).build();
+        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(cm).build();
 
         //创建httpGet请求对象，设置url地址
         HttpGet httpGet = new HttpGet(url);
 
         //设置请求信息
-        httpGet.setConfig(this.getConfig());
+        httpGet.setConfig(getConfig());
         //设置头信息
         httpGet = setHeader(httpGet, refer);
 
@@ -86,15 +146,15 @@ public class HttpUtils {
      * @param url
      * @return 页面数据
      */
-    public String doGetHtml(String url) {
+    public static String doGetHtml(String url) {
         //获取HttpClient对象
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(this.cm).build();
+        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(cm).build();
 
         //创建httpGet请求对象，设置url地址
         HttpGet httpGet = new HttpGet(url);
 
         //设置请求信息
-        httpGet.setConfig(this.getConfig());
+        httpGet.setConfig(getConfig());
         //设置头信息
         httpGet = setHeader(httpGet);
 
@@ -137,15 +197,15 @@ public class HttpUtils {
      * @param url
      * @return 图片名称
      */
-    public String doGetImage(String url,String filePath) {
+    public static String doGetImage(String url,String filePath) {
         //获取HttpClient对象
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(this.cm).build();
+        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(cm).build();
 
         //创建httpGet请求对象，设置url地址
         HttpGet httpGet = new HttpGet(url);
 
         //设置请求信息
-        httpGet.setConfig(this.getConfig());
+        httpGet.setConfig(getConfig());
 
         CloseableHttpResponse response = null;
 
@@ -193,7 +253,7 @@ public class HttpUtils {
     }
 
     //设置请求信息
-    private RequestConfig getConfig() {
+    private static RequestConfig getConfig() {
         RequestConfig config = RequestConfig.custom()
                 .setConnectTimeout(1000)    //创建连接的最长时间
                 .setConnectionRequestTimeout(500)  // 获取连接的最长时间
@@ -203,7 +263,7 @@ public class HttpUtils {
         return config;
     }
     //设置头信息
-    private HttpGet setHeader(HttpGet httpGet,String referer){
+    private static HttpGet setHeader(HttpGet httpGet,String referer){
         httpGet.setHeader("Referer",referer);
         httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;");
         httpGet.setHeader("Accept-Language","zh-cn");
@@ -211,7 +271,7 @@ public class HttpUtils {
         httpGet.setHeader("Keep-Alive", "300");
         return httpGet;
     }
-    private HttpGet setHeader(HttpGet httpGet){
+    private static HttpGet setHeader(HttpGet httpGet){
         httpGet.setHeader("Referer","no-referrer");
         httpGet.setHeader("Accept","text/html,application/xhtml+xml,application/xml;");
         httpGet.setHeader("Accept-Language","zh-cn");

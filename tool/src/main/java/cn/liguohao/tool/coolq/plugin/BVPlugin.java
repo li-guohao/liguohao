@@ -3,8 +3,8 @@ package cn.liguohao.tool.coolq.plugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.liguohao.tool.entity.BiliVideo;
-import cn.liguohao.tool.service.BiliBiliVideoService;
+import cn.liguohao.tool.entity.bilibili.Video;
+import cn.liguohao.tool.service.BVideoService;
 import net.lz1998.cq.event.message.CQGroupMessageEvent;
 import net.lz1998.cq.robot.CQPlugin;
 import net.lz1998.cq.robot.CoolQ;
@@ -20,10 +20,9 @@ import net.lz1998.cq.utils.CQCode;
 public class BVPlugin  extends CQPlugin  {
 	
 	@Autowired
-	private BiliBiliVideoService bService;
+	private BVideoService bService;
 	
 	
-	private static String prefix = "BV";
 	
 	/**
 	 * @Title: onGroupMessage
@@ -39,14 +38,19 @@ public class BVPlugin  extends CQPlugin  {
         long groupId = event.getGroupId();
         long userId = event.getUserId();
 
-        if(msg.startsWith(prefix)) { //是BV号
-        	cq.sendGroupMsg(groupId, "查询中... 可能需要一会儿，请稍后。", false);
-        	BiliVideo bv = bService.getBV(msg);
+        if(msg.startsWith("AV") || msg.startsWith("av") || msg.startsWith("BV") || msg.startsWith("bv")) { //是BV号
+        	//cq.sendGroupMsg(groupId, "查询中... 可能需要一会儿，请稍后。", false);
+        	Video bv = bService.getVideoByNumber(msg);
         	String result = CQCode.at(userId) + "\n"
+        				+"AV号："+"av"+bv.getAid()+"\n"
+        				+"BV号："+bv.getBvid()+"\n"
         				+"标题："+bv.getTitle()+"\n"
+        				+"封面图片URL："+bv.getPic() +"\n"
+        				+"上传时间："+bv.getPubdate()+"\n"
+        				+"视频总计持续时长："+bv.getDuration()+"秒"+"\n"
         				+"查询次数："+bv.getSearchCount()+"\n"
-        				+"封面图片URL："+bv.getCoverImgUrl() +"\n"
-        				+"查询者："+event.getSender().getNickname();
+        				+"查询者："+event.getSender().getNickname()+"("+userId+")"+"\n"
+        				+"视频简介：\n"+bv.getDesc();
         	
         	cq.sendGroupMsg(groupId, result, false);
         	return MESSAGE_BLOCK;
