@@ -1,4 +1,0 @@
-0    DEBUG [2020-07-22 13:06:23]  Couldn't find template in cache for "error.ftl"("zh_CN", UTF-8, parsed); will try to load it.
-2    DEBUG [2020-07-22 13:06:23]  TemplateLoader.findTemplateSource("error_zh_CN.ftl"): Not found
-3    DEBUG [2020-07-22 13:06:23]  TemplateLoader.findTemplateSource("error_zh.ftl"): Not found
-4    DEBUG [2020-07-22 13:06:23]  TemplateLoader.findTemplateSource("error.ftl"): Not found
