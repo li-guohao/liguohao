@@ -2,3 +2,6 @@
 .classpath
 .metadata
 .settings
+.project
+api.iml
+qqconnect.log
