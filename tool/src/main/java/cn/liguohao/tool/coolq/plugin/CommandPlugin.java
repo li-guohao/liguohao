@@ -23,9 +23,10 @@ public class CommandPlugin extends CQPlugin {
 
         if ("命令".equals(msg)) {
             // 调用API发送hello
-        	String result = "命令： 查询所有命令"+
-        				"\n"+"BV号或者AV号：查询视频信息" +
-        				"\n"+"服务器状态(IP:PORT)：查询Minecraft服务器状态";
+        	String result = "/命令： 查询所有命令"+
+        				"\n"+"/BV号或者AV号：查询视频信息" +
+        				"\n"+"/番剧番剧名：查询番剧信息" +
+        				"\n"+"/服务器状态IP(域名):PORT：查询Minecraft服务器状态";
         	cq.sendGroupMsg(groupId, result, false);
 
             // 不执行下一个插件

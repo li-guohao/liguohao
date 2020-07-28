@@ -1,12 +1,13 @@
 package cn.liguohao.tool.coolq.plugin;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.liguohao.tool.entity.bilibili.Bangumi;
 import cn.liguohao.tool.entity.bilibili.Video;
+import cn.liguohao.tool.service.BBangumiService;
 import cn.liguohao.tool.service.BVideoService;
 import net.lz1998.cq.event.message.CQGroupMessageEvent;
 import net.lz1998.cq.robot.CQPlugin;
@@ -20,11 +21,12 @@ import net.lz1998.cq.utils.CQCode;
  * @date: 2020-7-25 13:52:44
  */
 @Component
-public class BVPlugin  extends CQPlugin  {
+public class BliBliPlugin  extends CQPlugin  {
 	
 	@Autowired
 	private BVideoService bService;
-	
+	@Autowired
+	private BBangumiService bangumiService;
 	
 	
 	/**
@@ -41,7 +43,7 @@ public class BVPlugin  extends CQPlugin  {
         long groupId = event.getGroupId();
         long userId = event.getUserId();
         
-        
+        // 查询视频信息
         if(msg.startsWith("AV") || msg.startsWith("av") || msg.startsWith("BV") || msg.startsWith("bv")) { //是BV号
         	//cq.sendGroupMsg(groupId, "查询中... 可能需要一会儿，请稍后。", false);
         	try {
@@ -56,13 +58,31 @@ public class BVPlugin  extends CQPlugin  {
             				+"视频总计持续时长："+bv.getDuration()+"秒"+"\n"
             				+"查询次数："+bv.getSearchCount()+"\n"
             				+"查询者："+event.getSender().getNickname()+"("+userId+")"+"\n"
-            				+"视频简介：\n\n"+bv.getDesc();
+            				+"\n"+"视频简介：\n"+bv.getDesc();
             	
             	cq.sendGroupMsg(groupId, result, false);
 			} catch (Exception e) {
 				cq.sendGroupMsg(groupId,  CQCode.at(userId)+" "+e.getMessage(), false);
 			}
         	return MESSAGE_BLOCK;
+        //查询番剧信息 格式：番剧番剧名
+        }else if(msg.startsWith("番剧")) {
+        	msg = msg.substring("番剧".length());
+        	try {
+	        	Bangumi bangumi = bangumiService.findBangmiByKeyword(msg);
+	        	String result = CQCode.at(userId) + "\n"
+	        				+"标题："+bangumi.getTitle() + "\n"
+	        				+"地区："+bangumi.getAreas() + "\n"
+	        				+"类型："+bangumi.getStyles() + "\n"
+	        				+"地址："+bangumi.getGoto_url() + "\n"
+	        				+"封面URL："+"http:"+bangumi.getCover() + "\n"
+	        				+"\n"+"CV：\n"+bangumi.getCv() + "\n"
+	        				+"\n"+"STAFF：\n"+bangumi.getStaff() + "\n"
+	        				+"\n"+"介绍：\n"+ bangumi.getDesc();
+	        	cq.sendGroupMsg(groupId, result, false);
+        	} catch (Exception e) {
+				cq.sendGroupMsg(groupId,  CQCode.at(userId)+" 查无此番剧", false);
+			}
         }
         
         // 继续执行下一个插件

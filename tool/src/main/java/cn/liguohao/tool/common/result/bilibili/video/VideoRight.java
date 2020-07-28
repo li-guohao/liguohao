@@ -1,4 +1,4 @@
-package cn.liguohao.tool.common.result.bilibili;
+package cn.liguohao.tool.common.result.bilibili.video;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

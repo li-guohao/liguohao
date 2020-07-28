@@ -16,7 +16,7 @@ import net.lz1998.cq.robot.CoolQ;
 @Component
 public class PrefixPlugin extends CQPlugin {
 
-	private static  String prefix = "小豪 ";
+	private static  String prefix = "/";
 	
 	@Override
 	public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
