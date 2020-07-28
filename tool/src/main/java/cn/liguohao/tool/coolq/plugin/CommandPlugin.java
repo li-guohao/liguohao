@@ -21,10 +21,10 @@ public class CommandPlugin extends CQPlugin {
 		long groupId = event.getGroupId();
         String msg = event.getMessage();
 
-        if (msg.startsWith("命令")) {
+        if ("命令".equals(msg)) {
             // 调用API发送hello
         	String result = "命令： 查询所有命令"+
-        				"\n"+"BV号：根据BV号查询视频信息" +
+        				"\n"+"BV号或者AV号：查询视频信息" +
         				"\n"+"服务器状态(IP:PORT)：查询Minecraft服务器状态";
         	cq.sendGroupMsg(groupId, result, false);
 

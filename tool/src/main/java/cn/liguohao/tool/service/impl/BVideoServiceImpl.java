@@ -1,5 +1,6 @@
 package cn.liguohao.tool.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -87,9 +88,9 @@ public class BVideoServiceImpl implements BVideoService {
 		video = JSONObject.toJavaObject((JSONObject)resultObjTemp.getData(), Video.class);
 		
 		// 复制属性值到 数据库的视频对象 这里可能会出异常
+		if(video==null) throw new RuntimeException("搜索的结果为空,或许视频不存在。QAQ");
 		BeanUtils.copyProperties(video, bv);
 		bv.setSearchCount(1); //设置新查询的为1次
-		
     	// 保存到数据库
     	bvDao.save(bv);
 		return bv;

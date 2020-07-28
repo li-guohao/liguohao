@@ -1,5 +1,8 @@
 package cn.liguohao.tool.coolq.plugin;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,22 +40,28 @@ public class BVPlugin  extends CQPlugin  {
         String msg = event.getMessage();
         long groupId = event.getGroupId();
         long userId = event.getUserId();
-
+        
+        
         if(msg.startsWith("AV") || msg.startsWith("av") || msg.startsWith("BV") || msg.startsWith("bv")) { //是BV号
         	//cq.sendGroupMsg(groupId, "查询中... 可能需要一会儿，请稍后。", false);
-        	Video bv = bService.getVideoByNumber(msg);
-        	String result = CQCode.at(userId) + "\n"
-        				+"AV号："+"av"+bv.getAid()+"\n"
-        				+"BV号："+bv.getBvid()+"\n"
-        				+"标题："+bv.getTitle()+"\n"
-        				+"封面图片URL："+bv.getPic() +"\n"
-        				+"上传时间："+bv.getPubdate()+"\n"
-        				+"视频总计持续时长："+bv.getDuration()+"秒"+"\n"
-        				+"查询次数："+bv.getSearchCount()+"\n"
-        				+"查询者："+event.getSender().getNickname()+"("+userId+")"+"\n"
-        				+"视频简介：\n"+bv.getDesc();
-        	
-        	cq.sendGroupMsg(groupId, result, false);
+        	try {
+        		Video bv = bService.getVideoByNumber(msg);
+            	String result = CQCode.at(userId) + "\n"
+            				+"AV号："+"av"+bv.getAid()+"\n"
+            				+"BV号："+bv.getBvid()+"\n"
+            				+"标题："+bv.getTitle()+"\n"
+            				+"封面图片URL："+bv.getPic() +"\n"
+            				+"视频链接URL："+"https://www.bilibili.com/video/av"+bv.getAid() +"\n"
+            				+"上传时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(bv.getPubdate())+"\n"
+            				+"视频总计持续时长："+bv.getDuration()+"秒"+"\n"
+            				+"查询次数："+bv.getSearchCount()+"\n"
+            				+"查询者："+event.getSender().getNickname()+"("+userId+")"+"\n"
+            				+"视频简介：\n\n"+bv.getDesc();
+            	
+            	cq.sendGroupMsg(groupId, result, false);
+			} catch (Exception e) {
+				cq.sendGroupMsg(groupId,  CQCode.at(userId)+" "+e.getMessage(), false);
+			}
         	return MESSAGE_BLOCK;
         }
         
