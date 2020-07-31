@@ -50,7 +50,7 @@
 			</tr>
 			<tr>
 				<td>上传时间</td>
-				<td>${BV.pubdate?string('yyyy年MM月dd日')}</td>
+				<td>Unix时间戳：${(BV.pubdate)?c}</td>
 			</tr>
 			<tr>
 				<td>视频总计持续时长</td>

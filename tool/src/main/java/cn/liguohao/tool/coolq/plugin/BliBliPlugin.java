@@ -54,7 +54,8 @@ public class BliBliPlugin  extends CQPlugin  {
             				+"标题："+bv.getTitle()+"\n"
             				+"封面图片URL："+bv.getPic() +"\n"
             				+"视频链接URL："+"https://www.bilibili.com/video/av"+bv.getAid() +"\n"
-            				+"上传时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(bv.getPubdate())+"\n"
+            				// 这里注意，api获取的时间戳需要乘以1000才是正确的Java格式时间戳
+            				+"上传时间："+ new SimpleDateFormat("yyyy年MM月dd日").format(bv.getPubdate()*1000)+"\n"
             				+"视频总计持续时长："+bv.getDuration()+"秒"+"\n"
             				+"查询次数："+bv.getSearchCount()+"\n"
             				+"查询者："+event.getSender().getNickname()+"("+userId+")"+"\n"

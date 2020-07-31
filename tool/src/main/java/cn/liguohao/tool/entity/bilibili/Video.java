@@ -1,7 +1,5 @@
 package cn.liguohao.tool.entity.bilibili;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -80,13 +78,13 @@ public class Video {
 	 * 视频上传时间 时间戳
 	 */
     @Column(name = "pubdate")
-	private Date pubdate;
+	private Long pubdate;
 	
 	/**
 	 * 视频审核通过时间 时间戳
 	 */
     @Column(name = "ctime")
-	private Date ctime;
+	private Long ctime;
 	
 	/**
 	 * 视频简介 
@@ -185,19 +183,20 @@ public class Video {
 		this.title = title;
 	}
 
-	public Date getPubdate() {
+	
+	public Long getPubdate() {
 		return pubdate;
 	}
 
-	public void setPubdate(Date pubdate) {
+	public void setPubdate(Long pubdate) {
 		this.pubdate = pubdate;
 	}
 
-	public Date getCtime() {
+	public Long getCtime() {
 		return ctime;
 	}
 
-	public void setCtime(Date ctime) {
+	public void setCtime(Long ctime) {
 		this.ctime = ctime;
 	}
 

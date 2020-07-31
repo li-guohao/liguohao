@@ -1,7 +1,5 @@
 package cn.liguohao.tool.common.result.bilibili.video;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -56,12 +54,12 @@ public class Video {
 	/**
 	 * 视频上传时间 时间戳
 	 */
-	private Date pubdate;
+	private Long pubdate;
 	
 	/**
 	 * 视频审核通过时间 时间戳
 	 */
-	private Date ctime;
+	private Long ctime;
 	
 	/**
 	 * 视频简介 
@@ -153,19 +151,21 @@ public class Video {
 		this.title = title;
 	}
 
-	public Date getPubdate() {
+	
+
+	public Long getPubdate() {
 		return pubdate;
 	}
 
-	public void setPubdate(Date pubdate) {
+	public void setPubdate(Long pubdate) {
 		this.pubdate = pubdate;
 	}
 
-	public Date getCtime() {
+	public Long getCtime() {
 		return ctime;
 	}
 
-	public void setCtime(Date ctime) {
+	public void setCtime(Long ctime) {
 		this.ctime = ctime;
 	}
 

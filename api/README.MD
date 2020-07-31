@@ -27,7 +27,6 @@ docker pull liguohaocn/api:latest
 # 运行容器
 docker run --detach --name api --network=host \
     -p 8888:8888 \
-    --env RUNTIME_DB="MYSQL" \
     --env spring.datasource.username="root" \
     --env spring.datasource.password="shrek666" \
     --env spring.datasource.driverClassName="com.mysql.cj.jdbc.Driver" \
@@ -35,3 +34,12 @@ docker run --detach --name api --network=host \
     --restart=always \
     docker.io/liguohaocn/api
 ```
+
+# 参数说明
+* spring.datasource.username 数据库用户名
+* spring.datasource.password 数据库密码
+* spring.datasource.driverClassName 指定数据库驱动类为MySQL
+* spring.datasource.url 数据库连接URL
+* restart=always 开机启动容器
+
+其中`数据库连接URL`中需要指定数据库名称，在 `3306/` 后面
