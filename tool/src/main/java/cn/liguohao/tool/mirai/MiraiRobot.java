@@ -51,7 +51,7 @@ public class MiraiRobot{
      */
 	private void init() {
 		// 构建
-		bot = BotFactoryJvm.newBot(3604880282L, "shrek666", new BotConfiguration() {
+		bot = BotFactoryJvm.newBot(QQNumber, QQPassword, new BotConfiguration() {
             {
                 //保存设备信息到文件
                 fileBasedDeviceInfo("deviceInfo.json");
