@@ -2,7 +2,6 @@ package cn.liguohao.tool.mirai;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import cn.liguohao.tool.mirai.handler.MessageEventHandler;
@@ -20,11 +19,6 @@ import net.mamoe.mirai.utils.BotConfiguration;
 @Component
 public class MiraiRobot{
 	
-	@Value("${mirai.qq.number}")
-	private Long QQNumber;
-	
-	@Value("${mirai.qq.password}")
-	private String QQPassword;
 	
 	/**
 	 * 日志 
@@ -50,8 +44,8 @@ public class MiraiRobot{
     * @Description: 初始化登录
      */
 	private void init() {
-		// 构建
-		bot = BotFactoryJvm.newBot(QQNumber, QQPassword, new BotConfiguration() {
+		// 构建 本地测试用3604880282 线上请改成 2891055788
+		bot = BotFactoryJvm.newBot(3604880282L, "shrek666", new BotConfiguration() {
             {
                 //保存设备信息到文件
                 fileBasedDeviceInfo("deviceInfo.json");

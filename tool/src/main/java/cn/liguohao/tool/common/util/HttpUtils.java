@@ -13,7 +13,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
-import org.springframework.stereotype.Component;
 
 /**
 * @ClassName: HttpUtils.java
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Component;
 * @author: 李国豪
 * @date: 2020年5月9日 下午5:52:10
  */
-@Component
 public class HttpUtils {
 	private static PoolingHttpClientConnectionManager cm;
 
