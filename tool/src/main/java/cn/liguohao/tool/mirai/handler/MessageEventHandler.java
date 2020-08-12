@@ -84,7 +84,7 @@ public class MessageEventHandler  extends SimpleListenerHost {
         	
         		 event.getGroup().sendMessage(result);
         	}else {
-        		event.getGroup().sendMessage("未知的查询指令");
+        		//event.getGroup().sendMessage("未知的查询指令");
         	}
 			
 		}else if(msgString.startsWith("AV") || msgString.startsWith("av") || msgString.startsWith("BV") || msgString.startsWith("bv")) { //BV或者AV视频号

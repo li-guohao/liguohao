@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cn.liguohao.robot</groupId>
+  <artifactId>robot</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>小豪机器人</name>
+  <description>小豪机器人项目源代码</description>
+  
+  
+  <dependencies>
+	<!-- Mirai 框架 -->
+ 	<dependency>
+		<groupId>net.mamoe</groupId>
+	    <artifactId>mirai-core-qqandroid</artifactId>
+	    <version>1.0.4</version> <!-- 已替换版本为最新版本 -->
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+	<dependency>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.17</version>
+	</dependency>
+	
+  </dependencies>
+  
+  
+  <!-- 构建配置 -->
+  <build>
+		<plugins>
+			<!-- docker 远程仓库 插件 -->
+			<plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <!-- docker私服的地址 -->
+                    <dockerHost>http://liguohao.cn:8375</dockerHost>
+                    <imageName>docker.io/liguohaocn/tool:${project.version}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+			
+		</plugins>
+		<finalName>robot.liguohao.cn</finalName>
+	</build>
+  
+  
+  	<repositories>
+	    <repository>
+	        <id>aliyun</id>
+	        <name>aliyun</name>
+	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+	        <layout>default</layout>
+	        <releases>
+	            <enabled>true</enabled>
+	            <updatePolicy>never</updatePolicy>
+	        </releases>
+	        <snapshots>
+	            <enabled>true</enabled>
+	            <updatePolicy>never</updatePolicy>
+	        </snapshots>
+	    </repository>
+	    
+	</repositories>
+	<pluginRepositories>
+	    <pluginRepository>
+	        <id>aliyun</id>
+	        <name>aliyun</name>
+	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </pluginRepository>
+	</pluginRepositories>
+</project>

@@ -45,7 +45,7 @@ public class MiraiRobot{
      */
 	private void init() {
 		// 构建 本地测试用3604880282 线上请改成 2891055788
-		bot = BotFactoryJvm.newBot(3604880282L, "shrek666", new BotConfiguration() {
+		bot = BotFactoryJvm.newBot(2891055788L, "shrek666", new BotConfiguration() {
             {
                 //保存设备信息到文件
                 fileBasedDeviceInfo("deviceInfo.json");

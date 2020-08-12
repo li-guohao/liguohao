@@ -197,7 +197,7 @@ export default {
       // 微信对话框
       WechatDialogVisible:false,
       // 首页热门文章显示条数
-      hotest_number: 10,
+      hotest_number: 127,
       // 首页文章显示条数
       article_number:6,
       // 热门文章
