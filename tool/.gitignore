@@ -3,3 +3,4 @@
 .project
 .freemarker-ide.xml
 /.settings
+/deviceInfo.json

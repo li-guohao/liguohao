@@ -17,8 +17,8 @@ import java.util.Map;
 @RestController
 public class IndexController {
 
-    @Value("${API_MD_URL}")
-    private String API_MD_URL; //接口文档地址
+    @Value("${Product_MD_URL}")
+    private String Product_MD_URL; //项目文档地址
 
     @GetMapping("")
     public Map<String,Object> index(HttpServletRequest request){
@@ -31,7 +31,7 @@ public class IndexController {
         map.put("文件模块",requestUrl+"file");                  // 文件模块
         map.put("博客模块",requestUrl+"blog");                  // 博客模块
         map.put("系统模块,需要权限校验",requestUrl+"system");   // 系统模块
-        map.put("接口文档",API_MD_URL);                         // markdown接口文档地址
+        map.put("项目文档",Product_MD_URL);                         // markdown项目文档地址
         // 返回结果
         return map;
     }
