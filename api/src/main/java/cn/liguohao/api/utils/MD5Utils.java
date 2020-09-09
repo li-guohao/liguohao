@@ -29,8 +29,8 @@ public class MD5Utils {
 		return md5code;
 	}
 	
-	public static void main(String[] args) {
-		String str=MD5Utils.md5("tom");
-		System.out.println(str);
-	}
+//	public static void main(String[] args) {
+//		String str=MD5Utils.md5("liguohao");
+//		System.out.println(str);
+//	}
 }
